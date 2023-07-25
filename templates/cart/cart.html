@@ -1,0 +1,492 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="slider-area ">
+  <div class="single-slider slider-height2 d-flex align-items-center">
+      <div class="container">
+          <div class="row">
+              <div class="col-xl-12">
+                <br>
+                  <div class="hero-cap text-center">
+                      <h1>Shopping Cart</h1>
+                      <hr>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div> 
+
+
+
+  <section class="section-content padding-y">
+
+       
+    <div class="container">
+        <div class="row">
+        
+          <hr>
+            <div class="col-8">                
+                <div class="card mb-3" style="max-width: 780px;border: none;">
+                    {{message}}
+                   
+                    {% for cart_item in cart_items %}
+                    <div class="row g-0">
+                      <div class="col-md-4">
+                        <img src="{{MEDIA_URL}}{{cart_item.product.images.url}} " class="img-fluid rounded-start"width="70%" height="70%" alt="Image">
+                      </div>
+                      <div class="col-md-8">
+                        <div class="card-body">
+                          <h4 class="card-title">{{cart_item.product_variant.product_name}}</h4>
+                           {% comment %} <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.{{cart_item.product.description}}</p> {% endcomment %}
+                         <p class="card-text"><large class="text" style="color:red;">₹{{ cart_item.product_variant.price}}</large></p>
+                          <p class="card-text"><small class="text" style="color:green;">Color : {{ cart_item.product_variant.color}}</small></p>
+                          {{prod}} 
+
+                          <p class="card-text"><small class="text" style="color:black;">Quantity : {{cart_item.quantity}}</small></p>
+
+                        </div>
+                       <div class="form-row"> 
+                          <div class="col-md-12">
+                    
+                          <div class=" col-6 sizes mt-3">
+                          <div class="col d-flex input-group mb-3"> 
+                            {% comment %} <h6 class="text-uppercase">Quantity</h6>  {% endcomment %}
+                            <button class="plus-btn btn btn-outline-secondary" type="button" data-id="{{cart_item.id}}" data-action='increase' style="border-radius:100%;">+</button>
+                            
+                            <div class="entry value text-center mt-2" data-id="{{ cart_item.id }}" style="width: 30px;">
+                              <span class="cart_item_quantity">{{ cart_item.quantity }}</span>
+                            </div>
+                            
+                          <button class="minus-btn btn btn-outline-secondary" type="button"  data-id="{{cart_item.id}}" data-action='decrease' style="border-radius:100%;">-</button>
+                          
+                    </div>  
+                  </div>
+                  
+                </div>
+              </div> 
+              
+            </div>
+            
+        
+        <hr>
+         
+                          <div class="d-flex justify-content-between align-items-center">  
+                            <a href="{% url 'delete_cart_item' cart_item.id %}" class="card-link btn btn-danger ml-5">Delete from cart</a>
+                          
+                        </div>
+                      </div>
+                      <br><br>
+                           
+                         
+                        {% endfor %}
+                        
+                            
+                          </div>
+                        </div> 
+                    
+
+                
+                 
+                    
+                
+                 
+                  
+           
+            
+
+            {% comment %} <div class="cart-btn">
+              <div class="row">
+                  <div class="col-lg-6"> {% endcomment %}
+                    <div class="col-4">
+                      <div class="cart__discount">
+                        <h4 class="card-title">Discount codes</h4>
+
+                        <input type="text" name="coupon" id="coupon" placeholder="Coupon code" style="padding: 5px; border: 1px solid #ccc;height:45px;">
+                        <button id="apply-coupon-button"  style='background-color: blue; color: #fff; border: none; padding: 10px 20px; margin-left: 5px;'>Apply</button>
+                        <h6 id="coupon-id" style="padding-top:1rem;" ></h6>
+                    </div>
+                    <h5>Available Coupons</h6>
+                      {% for c in coupon %}
+                      <ul>
+                        <li>{{c.coupon_code}}</li>
+                      </ul>
+                      {% endfor %}
+                      {% comment %} <div class="card" style="width: 18rem;">
+                          <div class="card-body">
+                            <h4 class="card-title">Discount codes</h4>
+               
+                              
+                              <input type="text" name="coupon" id="coupon" placeholder="Coupon code" style="padding: 5px; border: 1px solid #ccc;height:45px;">
+                              
+                              
+                              <button id="apply-coupon-button" style='background-color: rgb(83, 75, 201); color: #fff; border: none; padding: 10px 20px; margin-left: 5px;'>Apply</button>
+                              <h6 id="coupon-id" style="padding-top:1rem;"></h6>
+
+                  </div>
+                </div> {% endcomment %}
+              
+                 <div class="col-lg-5 offset-lg-1 text-left text-lg-right">
+                      <div class="site-btn update-btn ">
+                          <div class="product-text"><a href=""></a></div>
+                      </div>
+                    </div>
+                <div class="col-4">
+                <div class="card" style="width: 18rem;"> 
+                    <div class="card-body"> 
+                      <h4 class="card-title">Cart Total</h4>
+                      <hr>
+                      <h6 class="card-subtitle mb-2 text">
+                        Total items:
+                        <span class="total_items pl-2"> {{total}}</span>
+                    </h6>
+                    <h6 class="card-subtitle mb-2 text">Delivery Fee:
+                      <span class='pl-2'>₹  {{0}}</span>
+                    </h6>
+                    <br>
+                      <h6 class="card-subtitle mb-2 text">Total:
+                        <span class="total_price"> ₹  {{sum}}</span>
+                      </h6>
+                      
+                    
+                      <hr>
+			<p class="text-center mb-3">
+				<img src="{% static './images/misc/payments.png' %}" height="26">
+			</p>
+			<a href="{% url 'Checkout' %}" class="btn btn-primary btn-block"> Proceed to Checkout </a>
+			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
+
+                     
+                    </div>
+                  </div>
+              </div>  
+         
+        
+                   {% comment %} <div class="col-4">
+                    <form method="post">
+                      {% csrf_token %}
+                      <div class="input-group mb-3 col-11">
+                        <input type="text" class="coupon form-control" id="coupon" name="coupon" placeholder="Coupon Code">
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-primary" type="submit">Submit</button>
+                          <p></p>
+                        </div>
+                      </form>
+                    </div> {% endcomment %}
+      
+      </div>
+    </div>
+</section>
+
+
+
+{% comment %} 
+<script>
+  $(document).ready(function() {
+      $('.changeQuantity').click(function() {
+          var action = $(this).data('action');
+          var qty = parseInt($('#prod_qty').val());
+  
+          if (action == 'subtract') {
+              if (qty > 1) {
+                  qty--;
+              }
+          } else {
+              qty++;
+          }
+  
+          $('#prod_qty').val(qty);
+      });
+  });
+  </script> {% endcomment %}
+
+
+  <script>
+    function updatePrice(price,stock1) {
+      var priceElement = document.getElementById("current_price");
+      priceElement.innerText = "₹ " + price;
+      if (stock1<1){
+				var stockElement = document.getElementById("stock1");
+				stockElement.textContent = "Out of stock";
+				var buttonElement = document.getElementById("cartbutton");
+				buttonElement.style.display = "none";
+
+			}
+			else{
+				var stockElement = document.getElementById("stock1");
+				stockElement.textContent = "Available";
+				var buttonElement = document.getElementById("cartbutton");
+				buttonElement.style.display = "block";
+			}
+
+
+
+  
+      // Get the selected color
+      var selectedColor = document.querySelector('input[name="color"]:checked');
+  
+      document.getElementById("selectedcolor").value = selectedColor.dataset.color;
+  
+      document.getElementById("selectedprice").value = price;
+    }
+    </script>
+    <script>
+    $('.plus-btn').on('click', function() {
+console.log("plus function working")
+var cartItemId = $(this).data('id');
+var action = $(this).data('action');
+console.log(cartItemId)
+updateCartItemQuantity(cartItemId, action);
+
+});
+
+$('.minus-btn').on('click', function() {
+console.log("minus function working")
+var cartItemId = $(this).data('id');
+var action = $(this).data('action');
+console.log(cartItemId)
+updateCartItemQuantity(cartItemId, action);
+
+});
+
+
+
+function updateCartItemQuantity(cartItemId, action) {
+		$.ajax({
+		  url: "{% url 'update_cart_items' %}",
+		  method: 'GET',
+		  data: {
+			cart_item_id: cartItemId,
+			action: action
+		  },
+		  success: function(response) {
+			if (response.status === 200) {
+			  // Update the quantity value in the template
+			  var quantitySpan = $('.value[data-id="' + cartItemId + '"] span');
+           var totalItems = $('.total_items');
+			  quantitySpan.text(response.quantity);
+           totalItems.text(response.total_items);
+           var priceSpan = $('.total_price');
+	        priceSpan.text(response.total);
+           
+			  
+			}
+		}
+		});
+}
+</script>
+
+
+
+
+
+<script type="text/javascript" src="{% static 'js/move-top.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/easing.js' %}"></script>
+<script type="text/javascript">
+	jQuery(document).ready(function($) {
+		$(".scroll").click(function(event){		
+			event.preventDefault();
+			$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+		});
+	});
+</script>
+<!-- start-smoth-scrolling -->
+<!-- Bootstrap Core JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+	function getCookie(name) {
+		let cookieValue = null;
+		if (document.cookie && document.cookie !== '') {
+		  const cookies = document.cookie.split(';');
+		  for (let i = 0; i < cookies.length; i++) {
+			const cookie = cookies[i].trim();
+			// Does this cookie string begin with the name we want?
+			if (cookie.substring(0, name.length + 1) === name + '=') {
+			  cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+			  break;
+			}
+		  }
+		}
+		return cookieValue;
+	  }
+
+
+$(document).ready(function() {
+	$('#apply-coupon-button').click(function() {
+	  applyCoupon();
+	});
+  });
+  
+  function applyCoupon() {
+	console.log("button clicked");
+	var url = "{% url 'apply_coupon' %}";
+	var csrfToken = getCookie('csrftoken');
+	var coupon = $('#coupon').val();
+	console.log(coupon);
+	var couponId = $('#coupon-id');
+	console.log(couponId);
+  
+	var totalPrice = parseInt($('.total_price').text().replace('₹ ', ''));
+	console.log(totalPrice);
+  
+	$.ajax({
+	  url: url,
+	  type: 'POST',
+	  dataType: 'json',
+	  headers: {
+		'Content-type': 'application/json',
+		'X-CSRFToken': csrfToken
+	  },
+	  data: JSON.stringify({
+		coupon: coupon,
+		grand_total: totalPrice
+	  }),
+	  success: function(response) {
+		if (response) {
+		  couponId.html(response.message);
+		  $('.total_price').text('₹ ' + response.total);
+		}
+	  },
+	  error: function() {
+		console.log('Error');
+	  }
+	});
+} 
+</script>
+
+<script>
+  $(document).ready(function(){
+      $(".dropdown").hover(            
+          function() {
+              $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
+              $(this).toggleClass('open');        
+          },
+          function() {
+              $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
+              $(this).toggleClass('open');       
+          }
+      );
+  });
+  
+</script>
+{% comment %}   
+    $('.value-plus').on('click', function() {
+      console.log("plus function working")
+      var cartItemId = $(this).data('id');
+      var action = $(this).data('action');
+      console.log(cartItemId)
+      updateCartItemQuantity(cartItemId, action);
+      
+  
+      
+    });
+    
+    $('.value-minus').on('click', function() {
+      console.log("minus function working")
+      var cartItemId = $(this).data('id');
+      var action = $(this).data('action');
+      console.log(cartItemId)
+      updateCartItemQuantity(cartItemId, action);
+      
+    });
+    function updateCartItemQuantity(cartItemId, action) {
+      $.ajax({
+        url: "{% url 'update_cart_items' %}",
+        method: 'GET',
+        data: {
+        cart_item_id: cartItemId,
+        action: action
+        },
+        success: function(response) {
+        if (response.status === 200) {
+          // Update the quantity value in the template
+          var quantitySpan = $('.value[data-id="' + cartItemId + '"] span');
+          quantitySpan.text(response.quantity);
+  
+          // update total price in template
+          var totalspan = $('.total[data-id="' + cartItemId + '"] span');
+          totalspan.text(response.subtotal);
+          
+        }
+      }
+      });
+    } {% endcomment %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+     {% comment %} <div class="product_count  d-flex">
+                        {% if item.msg %}
+                        <p class="text-danger">Only this much items left</p>
+                        {% endif %}
+                        {% if item.product.quantity < 0 %}
+                          <p class="text-danger">Out Of Stock</p>
+                          {% else %}
+                          <button data-action="subtract" class="input-group-text decrement-btn changeQuantity"> <i class="ti-minus"></i></button>
+                          <input id="prod_qty" name="product_qty" class="product_count_item qty-input" type="text" value="{{item.quantity}}" max="100" style="width:70px;">
+                          <button data-action="add" class="input-group-text increment-btn changeQuantity"> <i class="ti-plus"></i></button>
+                          {% endif %}
+                        </div> {% endcomment %}
+
+
+
+
+
+ {% comment %} <p class="card-text">.</p>
+                      <a href="{% url 'Checkout' %}" class="card-link btn btn-primary ml-3">Proceed to Checkout</a>
+                      <a href="{% url 'store' %}" class="card-link btn btn-light ml-4 mt-3">Continue Shopping</a> {% endcomment %}
+
+        {% comment %} <!-- <div class="row">
+            <div class="col-lg-9"></div>
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <div class="cart__btn">
+                    <a href="#" class="card-link btn btn-dark ml-5">Continue Shopping</a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+                
+            </div>
+        </div> -->
+        <!-- <div class="row">
+            <div class="col-lg-6">
+                {% if available_coupons %}
+                <p style="color: green;"><b>available coupons:</b> </p>
+                <ul style= "font-size: 15px;
+                color: crimson;
+                padding-left: 50px;
+                padding-bottom:10px;
+                list-style: none;">
+                {% for coupon in available_coupons %}
+                  <li>{{coupon.description}} Apply coupon  <b>{{coupon}}</b></li> 
+                {% endfor %}
+                
+              
+            </ul>
+                <div class="discount__content">
+                    <h6>Discount codes</h6>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="text" name="coupon" placeholder="Enter your coupon code">
+                        <button type="submit" class="site-btn">Apply</button>
+                    </form>
+                     {% if order.coupon %}
+                    <p class="pt-2">Applied Coupon: <b style="color:red">{{order.coupon}} </b>
+                    <a href="{% url 'remove_coupon' order.uid %}" class="btn btn-outline-warning">Remove</a></p>
+                    {% endif %} 
+             </div>
+                {% endif %} 
+            </div>--> {% endcomment %}
+          

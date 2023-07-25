@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<style>
+    .payment-section {
+display: flex;
+align-items: center;
+}
+
+.payment-section h4 {
+margin-right: 10px;
+}
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+.popup {
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+background-color: #4BB543;
+padding: 20px;
+text-align: center;
+color: white;
+}
+
+.popup h2 {
+margin-top: 0;
+}
+
+.popup p {
+margin-bottom: 20px;
+}
+
+.center {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+</style>
+<section class="section-content padding-y bg">
+    <div class="container">
+           {% comment %} <div class="row"> {% endcomment %}
+					{% comment %} <div class="col-lg-8">
+							<h1>Your Billing Address</h1>
+		              	<div class="row">
+
+			            	<div class="col-md-12">
+                                <h2>{{adds.name}},</h2>
+								<h6>{{adds.house_name}}, {{adds.address_line_1}}, {{adds.city}},<br> {{adds.state}}, Pincode: {{adds.pincode}}, {{adds.country}}, Phone number: {{adds.phone}}</h6>
+								
+			                  	  
+			               </div>
+		               </div>
+					</div>
+
+					<div class="col-lg-4">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="cart-detail">
+									<h2>Cart Total</h2>
+									<ul>
+										<li><span>Total Items</span> <span>{{total}}</span></li>
+
+										<li><span>Order Total</span> <span>₹  {{sum}}</span></li>
+									</ul>
+								</div>
+						   </div>
+
+						   <div class="w-100"></div>
+
+						
+						</div>
+					</div>
+				</div> {% endcomment %}
+
+                <section class="section-content padding-y bg">
+                    <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+							<h1>Payment Method</h1>
+		              	<div class="row">
+							
+
+			            	<div class="col-md-12">
+                                
+                                <!-- <div class="payment-section">
+                                    <h4 class="ms-3">Choose:</h4>
+                                    <select id="myDropdown">
+                                      <option value="">Payment Method</option>
+                                      <option value="cod">COD</option>
+                                      <option value="razorpay">Razorpay</option>
+                                    </select>
+                                  </div> -->
+
+								  <!-- <button type="submit" class="btn btn-warning">Confirm order</button> -->
+                                  
+								  <!-- id="rzp-button1" -->
+                                <!-- <p><a role="button" class="proceed_button btn btn-warning mt-3" onclick="showPopup()">Place Order</a></p>  -->
+
+<!-- <button  id="rzp-button1" class="btn-dark" >
+  Confirm Order and Pay
+</button> -->
+<button id="rzp-button1" class="btn btn-outline-primary btn-lg"><i class="fas fa-money-bill"></i>Confirm Order and Pay</button>
+
+
+<input type="hidden" id="razorpay_page_total" value="{{total}}">
+<input type="hidden" id="razorpay_page_orderid" value="{{id}}">
+<input type="hidden" id="payment_id" value="{{ payment_id }}">
+<input type="hidden" id="order_number_id" value="{{ order_number }}">
+<input type="hidden" id="razor" value="{{ razor }}">
+
+<!-- to show payment button when we select payment method -->
+</div>
+</section>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+	var razorpayApiKey = 'rzp_test_KrqLewTjkr6SCu';
+	console.log("r")
+  console.log(razorpayApiKey)
+  var order_number = document.getElementById("order_number_id").value;
+  console.log(order_number)
+  var actual_amount = document.getElementById("razor").value;
+  console.log(actual_amount)
+  var orderID = document.getElementById("razorpay_page_orderid").value;
+  console.log(orderID)
+   var amount = document.getElementById("razorpay_page_total").value;
+   console.log(amount)
+	var options = {
+	  "key": razorpayApiKey, // Enter the Key ID generated from the Dashboard
+	  "amount": String(amount),
+	  "currency": "INR",
+	  "description": "Ecommerce",
+	  "image": "https://s3.amazonaws.com/rzp-mobile/images/rzp.jpg",
+	 //
+	 
+	  "handler": function (response) {
+		// alert(response.razorpay_payment_id);
+		var redirect = 'payments_complete?id=' + orderID + '&order_number=' + order_number + '&amount=' + actual_amount ;
+      if (redirect) {
+                     // Redirect to the specified URL
+                     window.location.href = redirect ;
+                     
+                  } else {
+                     // Handle other response data
+                     // ...
+                     console.log("no redirect")
+                  }
+	  },
+	//   + '&razorpay_payment_id=' + razorpayPaymentID + '&amount='+ amount
+
+	};
+	var rzp1 = new Razorpay(options);
+	document.getElementById('rzp-button1').onclick = function (e) {
+	  rzp1.open();
+	  e.preventDefault();
+	}
+  </script>
+
+  {% endblock %}
+
+
+
+
+
+
+
+
+
+  <!-- <script>
+  $(document).ready(function() { console.log('jQuery is working.'); });
+function showRazorpay() {
+  console.log("r")
+  var razorpayApiKey = 'rzp_test_9PWZXmd88RGOGY';
+  console.log(razorpayApiKey)
+  var orderID = document.getElementById("razorpay_page_orderid").value;
+  console.log(orderID)
+   var amount = document.getElementById("razorpay_page_total").value;
+   console.log(amount)
+
+
+  // Create an options object with payment details
+  var options = {
+    key: razorpayApiKey,
+    amount: "1000", // Replace with the actual amount
+    currency: 'INR',
+    name: 'Ecomerce',
+    description: 'Payment for your purchase',
+    order_id:orderID,
+    
+    handler: function(response) {
+      // Handle the response after payment completion
+      console.log(response);
+      var razorpayPaymentID = response.razorpay_payment_id;
+      
+      console.log("handler");  
+      
+      var redirect = 'complete_payment?id=' + orderID + '&razorpay_payment_id=' + razorpayPaymentID + '&amount='+ amount;
+      if (redirect) {
+                     // Redirect to the specified URL
+                     window.location.href = redirect ;
+                     
+                  } else {
+                     // Handle other response data
+                     // ...
+                     console.log("no redirect")
+                  }
+   
+				}
+			};
+				// Add your own logic here
+			// Initialize Razorpay checkout
+			
+			var rzp = new Razorpay(options);
+			rzp.open();
+			}
+</script> -->
+
+
+                               <!-- Pop-up overlay -->
+                               
+
+			                  <!-- </div> -->
+			               {% comment %} </div>
+							
+		               </div>
+						<!-- </div> -->
+					</div>
+                    
+                </div>
+			</div> {% endcomment %}
+		{% comment %} </div> {% endcomment %}
+     
+        <!-- <script>
+            var paymentMethodSelect = document.getElementById("myDropdown");
+            paymentMethodSelect.addEventListener("change", function() {
+            var selectedOption = paymentMethodSelect.value;
+            console.log("Selected Payment Method: " + selectedOption);
+            // Perform actions based on the selected payment method
+            });
+
+            // place order button
+        $(".proceed_button").on('click', function() {
+        console.log("add to order button clicked")
+        var dropdown = document.getElementById("myDropdown");
+        var selectedOption = dropdown.options[dropdown.selectedIndex].value;
+
+        var defaultAddressId = "{{ adds.id }}";  // Retrieve the default address ID from the Django template variable
+
+        $.ajax({
+            type: "GET",
+            url: "{% url 'place_order' %}",  // Replace 'place_order' with the actual URL of your view
+            data: {
+                'selectedOption': selectedOption,
+                'defaultAddressId': defaultAddressId,
+         
+            },
+            success: function(data) {
+
+                console.log("code run success")
+                console.log(data.flag)
+                flag = data.flag
+                console.log(data.message)
+                if(flag===1){
+                    displayPopup();
+                }
+            }
+        
+        
+      });
+   })
+    function displayPopup() {
+            var overlay = document.getElementById("overlay");
+            var popup = document.getElementById("popup");
+            overlay.style.display = "block";
+            popup.style.display = "block";
+          }
+      
+
+    function closePopup() {
+        var overlay = document.getElementById("overlay");
+        var popup = document.getElementById("popup");
+        overlay.style.display = "none";
+        popup.style.display = "none";
+    }
+
+        </script> -->
+
+     

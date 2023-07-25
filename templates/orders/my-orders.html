@@ -1,0 +1,355 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+ <main>
+
+
+  <!-- Hero Area Start-->
+  <div class="slider-area ">
+    <div class="single-slider slider-height2 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                  <br>
+                    <div class="hero-cap text-center">
+                        <h2>MY ORDERS LIST</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
+<!--================Cart Area =================-->
+<section class="cart_area section_padding">
+  
+
+  <div class="container">
+    
+
+{% comment %} {% if not orders %}
+<h2 class="text-center">Your OrderList is empty</h2>
+<br>
+<div class="text-center">
+<a href="{% url 'store'%}" class="btn_1">Continue shopping</a>
+</div>
+{% else %} {% endcomment %}
+
+{% comment %} <div class="row">
+  <div class="col-md-10 ms-5 mt-4">
+<table class="table caption-top">  {% endcomment %}
+  <div class="cart_inner">
+    <div class="table-responsive">
+      <table class="table">
+        <br>
+  <!-- <caption>List of categories</caption> -->
+  <thead>
+    <tr>
+
+    <th scope="col">Image</th>
+    <th scope="col">Product</th>
+    <th scope="col">Brand</th>
+    <th scope='col'>Quantity</th>
+    <th scope="col">Price</th>
+    <th scope="col">Status</th>
+    <th scope="col">Action</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for o in order %}
+    {% comment %} {% for p in order.myorders.all %} {% endcomment %}
+    <tr>
+    <td><a ><img src="{{MEDIA_URL}}{{o.product.images.url}} " class="img-fluid rounded-start" alt="Image" width="150" height="100"></a></td>
+    <td style="justify-content: center;">{{o.product.product_name}}</td>
+    <td style="justify-content: center;">{{o.product.brand}}</td>
+    <td style="justify-content: center;">{{ o.quantity}}</td>
+    <td style="justify-content: center;">₹{{ o.product.price}}</td>
+    <td style="justify-content: center; color: {% if o.order.status == 'New' %}blue{% elif o.order.status == 'Pending' %}orange{% elif o.order.status == 'Shipped' %}brown{% elif o.order.status == 'Delivered' %}green{% elif o.order.status == 'Cancelled' %}red{% endif %}">{{ o.order.status }}</td>
+     
+    <td>
+      <a href class="btn btn-warning">Return</a>
+      <hr>
+      <a href="{% url 'cancel_order' o.order.id %}" class="btn btn-danger">Cancel</a>
+
+              
+             </td>
+            </tr>                               
+    {% endfor %}
+
+  </tbody>
+  </table>
+  </div>
+</div>
+    {% comment %} <div class="cart_inner">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Product </th>
+              <th scope="col">Quantity</th>
+
+              <th scope="col">Amount</th>
+              
+              <th scope="col">Payment Method</th>
+              <th scope="col">Status</th>
+
+              <th scope="col">Ordered Date</th>
+              <th scope="col">Action</th>
+
+
+
+
+            </tr>
+          </thead>
+          <tbody>
+          {% for o in product_order %}
+            <tr>
+            
+              <td>
+                <div class="media">
+                  <div class="d-flex">
+                    <img src="{{o.product.product_image.url}}" alt="" />
+                  </div>
+                  <div class="media-body">
+                    <p><a class="title text-dark"> <b> {{o.product.product_name}} </b></a></p>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <h5 >{{o.quantity}}</h5>
+              </td>
+              <td>
+                <h5 style="color:red">₹{{o.order.order_total}}</h5>
+              </td>
+              <td>
+                <h5 >{{o.payment.payment_method}}</h5>
+              </td>
+              <td>
+                <h5 >{{o.status}}</h5>
+              </td>
+              <td>
+                <h5 >{{o.order.created_at}}</h5>
+              </td>
+               <td>
+                {% comment %} return order button and modal {% endcomment %}
+
+                {% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#returnModal">
+                  Return Order
+                </button> {% endcomment %}
+                
+                <!-- Modal form for return reason -->
+                {% comment %} <div class="modal fade" id="returnModal" tabindex="-1" role="dialog" aria-labelledby="returnModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="returnModalLabel">Return Reason</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body"> {% endcomment %}
+                        {% comment %} <form method="post" action="{% url 'return_order' order.order.id %}"> {% endcomment %}
+                          {% comment %} {% csrf_token %}
+                          {{ form.as_p }}
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {%if o.order.status == "CANCELED"%}
+                {% comment %} end of return order modal {% endcomment %}
+               
+               {% comment %} {% else %}
+               <a href="{%url 'cancel_order' o.order.id %}" class="btn btn-danger mt-2">Cancel</a>
+               {% endif %}
+
+                       
+                      </td> 
+
+                      </div>
+                    </div>
+                  </div>
+                </div> {% endcomment %}
+
+                      {% comment %} modal end {% endcomment %}
+                    
+
+                      {% comment %} </div>
+                    </div>
+
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="checkout_btn_inner float-right">
+          <a class="btn_1" href="{% url 'store'%}">Continue Shopping</a>
+          
+        </div>
+      </div>  {% endcomment %}
+
+      {% comment %} {% endif %} {% endcomment %}
+    
+    </div>
+</section>
+
+    <!-- Hero Area Start-->
+    {% comment %} <div class="slider-area ">
+        <div class="single-slider slider-height2 d-flex align-items-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="hero-cap text-center">
+                            <h2>MY ORDERS LIST</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--================Cart Area =================-->
+    <section class="cart_area section_padding">
+      <div class="container">
+
+
+<br>
+       <div class="cart_inner">
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Product </th>
+                  <th scope="col">Brand </th>
+                  <th scope="col">Quantity</th>
+
+                  <th scope="col">Amount</th>
+                  
+                  <th scope="col">Payment Method</th>
+                  <th scope="col">Status</th>
+
+                  <th scope="col">Ordered Date</th>
+
+
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for order in order %}
+                {% for o in order.myorders.all %}
+                <tr>
+                
+                  <td>
+                    <div class="media">
+                      <div class="d-flex"> {% endcomment %}
+                        {% comment %} <img src="{{o.product.images.url}}" alt="" /> {% endcomment %}
+                        {% comment %} <a ><img src="{{MEDIA_URL}}{{o.product.images.url}} " class="img-fluid rounded-start"width="50%" height="50%" alt="Images"></a>
+                      </div>
+                      <div class="media-body">
+                        <p><a class="title text-dark"> <b> {{o.product}} </b></a></p>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <h5 >{{o.product.brand}}</h5>
+                  </td>
+                  <td>
+                    <h5 >{{o.quantity}}</h5>
+                  </td>
+                  <td>
+                    <h5 style="color:red">₹{{o.order.order_total}}</h5>
+                  </td>
+                  <td>
+                    <h5 >{{o.payment.payment_method}}</h5>
+                  </td>
+                 
+                   <td style="color: {% if order.status == 'New' %}blue{% elif order.status == 'Pending' %}orange{% elif order.status == 'Shipped' %}brown{% elif order.status == 'Delivered' %}green{% elif order.status == 'Cancelled' %}red{% endif %}">{{ order.status }}</td>
+                 
+                  <td>
+                    <h5 >{{o.order.created_at}}</h5>
+                  </td> 
+                   <td>
+                   <a href class="btn btn-warning">Return</a>
+                   <hr>
+                   <a href="{% url 'cancel_order' o.order.id %}" class="btn btn-danger">Cancel</a>
+
+                           
+                          </td> 
+                          {% endfor %}
+                          {% endfor %}
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                          {% comment %} modal end {% endcomment %}
+                        
+
+                          {% comment %} </div>
+                        </div>
+
+                  </td>
+                </tr> {% endcomment %}
+                {% comment %} {% endfor %} {% endcomment %}
+              {% comment %} </tbody>
+            </table>
+            <div class="checkout_btn_inner float-right">
+              <a class="btn_1" href="{% url 'store'%}">Continue Shopping</a>
+              
+            </div>
+          </div> {% endcomment %}
+
+        {% comment %} {% endif %} {% endcomment %}
+        {% comment %} </div>
+    </section> {% endcomment %} 
+    <!--================End Cart Area =================-->
+{% comment %} </main> {% endcomment %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+  {% comment %} {% if not order %}
+   <h2 class="text-center">Your Wishlist is empty</h2>
+   <br>
+   <div class="text-center">
+    <a href="{% url 'store'%}" class="btn_1">Continue shopping</a>
+   </div>
+  {% else %} {% endcomment %}
+{% comment %} 
+  <h2>My Orders</h2>
+  {% for order in order %}
+  {% for o in order.myorders.all %}
+  <div class="row">
+    <div class="col-md-4">
+      <a ><img src="{{MEDIA_URL}}{{o.product.images.url}} " class="img-fluid rounded-start" alt="Images"></a>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{o.product}}</h5>
+        <h5 class="card-title">{{o.product.brand}}</h5>
+        {% comment %} <p class="card-title"><large class="">{{ o.product.description}}</large></p> {% endcomment %}
+        {% comment %} <p class="card-text"><large class="text-muted">Quantity : {{ o.quantity}}</large></p>
+        <p class="card-text"><large class="text-muted">₹{{ o.product_price}}</large></p> {% endcomment %}
+        <!-- <p class="card-text"><small class="text-muted">Size : {{ cart_item.product_variant.size}}</small></p> -->
+         {% comment %} {{prod}}  {% endcomment %}
+
+
+      {% comment %} </div> {% endcomment %}
+      <!-- <div class="d-flex justify-content-between align-items-center">  
+              <a href="" class="card-link btn btn-dark ml-5">Delete from cart</a>
+    
+     </div>	 -->
+  {% comment %} </div>
+</div>
+{% endfor %}
+{% endfor %}  {% endcomment %}

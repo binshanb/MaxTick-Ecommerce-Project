@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+<section class="section-content padding-y bg">
+    <div class="container">
+        <div class="row">
+         
+          {% include 'includes/dashboard_sidebar.html' %}
+          <div class="col-md-8">
+
+            
+          {% comment %} <div class="col-md-8"> {% endcomment %}
+           
+            <p class="bread"><span><a href="{% url 'home' %}">Home</a></span> / <span>User Profile</span></p>
+            <br>
+
+          <h2>User Profile</h2>
+          <hr>
+          <!-- <div class="form-group"> -->
+            <form id="addressForm">
+            {% if address %}
+            {% for ads in address %}
+            
+            <h2>Name: {{ads.name}},</h2>
+            <h6>House Name:{{ads.house_name}}, Address Line:{{ads.address_line_1}}, City:{{ads.city}},<br> State:{{ads.state}}, Pincode: {{ads.pincode}}, Country:{{ads.country}}, Phone number: {{ads.phone}}</h6>
+            <a href="{% url 'edit_address_user' ads.id %}" class="mb-5 "><i style="font-size:24px" class="fa">&#xf044;</i>
+            </a>
+            <a href="{% url 'delete_address_user' ads.id %}"><i class="material-icons">&#xe872;</i></a><hr>
+            <!-- <a href="" class="btn btn-success">Select</a> -->
+            {% endfor %}
+          
+
+            {% else %}
+            <h2>Your Address Is Empty.</h2>
+            {% endif %}
+            </form>
+          
+<div class="col-md-3">
+              <a href="{% url 'Add_address_user' %}" class="btn btn-primary btn-lg mt-3">Add Address</a>
+            </div>
+                
+          <!-- </div> -->
+       </div>
+            
+      </div>
+  </div>
+  
+</div>
+</div>
+
+
+<br><br>
+
+            {% comment %} <div class ="container">
+                <h2>My Orders</h2>
+                <hr>
+                {% for order in order %}
+                {% for o in order.myorders.all %}
+                <div class="row">
+                  <div class="col-md-4">
+                    <a ><img src="{{MEDIA_URL}}{{o.product.images.url}} " class="img-fluid rounded-start" width="40%" height="40%" alt="Images"></a><hr>
+                  
+                  </div>
+              
+                  <div class="col-md-4">
+                    <div class="card-body">
+                      <h5 class="card-title">{{o.product}}</h5>
+                      <h5 class="card-title">{{o.product.brand}}</h5>
+                      {% comment %} <p class="card-title"><large class="">{{ o.product.description}}</large></p> {% endcomment %}
+                      {% comment %} <p class="card-text"><large class="text-muted">Quantity : {{ o.quantity}}</large></p>
+                      <p class="card-text"><large class="text-muted">₹{{ o.product_price}}</large></p><hr> {% endcomment %}
+                      <!-- <p class="card-text"><small class="text-muted">Size : {{ cart_item.product_variant.size}}</small></p> -->
+                      {% comment %} {{prod}}  
+
+                    </div> {% endcomment %}
+                    <!-- <div class="d-flex justify-content-between align-items-center">  
+                            <a href="" class="card-link btn btn-dark ml-5">Delete from cart</a>
+                  
+                   </div>	 -->
+                {% comment %} </div>
+              </div>
+            {% endfor %}
+          {% endfor %}
+            </div>
+          </div>  {% endcomment %}
+          <br>
+
+          
+          
+          {% comment %} <div class="row"> {% endcomment %}
+              {% comment %} <div class="col-md-4">
+                <h2>Your Address</h2>
+                <!-- <div class="form-group"> -->
+                  <form id="addressForm">
+                  {% if address %}
+                  {% for ads in address %}
+                  
+                  <h2>{{ads.name}},</h2>
+                  <h6>{{ads.house_name}}, {{ads.address_line_1}}, {{ads.city}},<br> {{ads.state}}, Pincode: {{ads.pincode}}, {{ads.country}}, Phone number: {{ads.phone}}</h6>
+                  <a href="{% url 'edit_address_user' ads.id %}" class="mb-5 "><i style="font-size:24px" class="fa">&#xf044;</i>
+                  </a>
+                  <a href="{% url 'delete_address_user' ads.id %}"><i class="material-icons">&#xe872;</i></a>
+                  <!-- <a href="" class="btn btn-success">Select</a> -->
+                  {% endfor %}
+
+                  {% else %}
+                  <h2>Your Address Is Empty.</h2>
+                  {% endif %}
+                  </form>
+                      
+                <!-- </div> -->
+             </div>
+                  <div class="col-md-12">
+                    <br><br>
+                      <a href="{% url 'Add_address_user' %}" class="btn btn-primary btn-sm mt-5">Add Address</a>
+                      
+                  </div> {% endcomment %}
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+
+
+ {% comment %} <div class="colorlib-product">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8"> 
+                <!-- <div class="colorlib-form"> -->
+               
+                  
+
+                <!-- </div> -->
+            </div>
+          <div class="col-lg-4"> 
+               </div>
+            </div>
+        </div>  {% endcomment %}
+    </section>
+
+    {% endblock %}

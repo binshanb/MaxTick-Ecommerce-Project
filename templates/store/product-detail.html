@@ -1,0 +1,552 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+ <style>
+  .img-big-wrap img:hover{
+    transform : scale(1.2);
+    transition:transform 0.3s ease;
+  }
+</style> 
+
+
+{% comment %} <script src="magicscroll/magicscroll.js"></script>  {% endcomment %}
+
+<section class="section-content padding-y bg">
+  <div class="container">
+  
+  <!-- ============================ COMPONENT 1 ================================= -->
+  <div class="card mt-3">
+    <div class="row no-gutters">
+      <aside class="col-md-6">
+  <article class="gallery-wrap"> 
+  <div class="img-big-wrap">
+    <div><img id="zoom_01" data-zoom-image="/media/{{pro.product_image.first.images}}" src="/media/{{pro.product_image.first.images}}"></div>
+  </div> <!-- slider-product.// -->
+
+  <div class="thumbs-wrap d-flex justify-content-evenly">
+    {% for images in pro.product_image.all|slice:":3" %}
+  <img class="item-thumb" onclick="changeImage('/media/{{ images.images }}')" src="/media/{{images.images}}"width="70" data-color="{{ images.color }}">
+    
+    {% endfor %}
+  
+
+
+
+  </div> <!-- slider-nav.// -->
+
+  </article> <!-- gallery-wrap .end// -->
+      </aside>
+        <main class="col-md-6 border-left">
+    <article class="content-body">
+    
+    <h2 class="title ps-3">{{pro.product_name}}</h2>
+    <h2 class="title ps-3">{{pro.brand}}</h2>
+    <!-- <h2 class="title">{{pro.Category}}</h2> -->
+    
+    
+    <div class="mb-3 ps-3"> 
+
+      <span class="act-price" id="current_price">
+
+        ₹ {{pro.variant.first.price}}
+        
+        </span>
+      
+    </div> <!-- price-detail-wrap .// -->
+    
+    <p class="ps-3">{{pro.description}}</p>
+    
+    <hr>
+      <div class="form-row ">
+      <!-- <div class="form-group col-md flex-grow-0">
+        <label>Quantity</label>
+        <div class="input-group mb-3 input-spinner">
+          <div class="input-group-prepend">
+          <button class="btn btn-light" type="button" id="button-plus"> + </button>
+          </div>
+          <input type="text" class="form-control" value="1">
+          <div class="input-group-append">
+          <button class="btn btn-light" type="button" id="button-minus"> − </button>
+          </div>
+        </div>
+      </div>  -->
+      
+
+
+      <div class=" col-6 sizes mt-5 ps-3"> 
+        <h6 class="text-uppercase">Color</h6> 
+        {% for variation in pro.variant.all %}
+        <label class="radio"> 
+          
+
+          <input type="radio" id="radio-btn" onclick="updatePrice('{{variation.price}}','{{variation.stock}}')" name="color" value="{{variation.color}}" data-color="{{ variation.color }}"> 
+          <span id="productcolor">{{variation.color}}</span> 
+        {% comment %} <span class="stock-info">-Stock Remaining:{{variation.stock}}</span>  {% endcomment %}
+        </label> 
+   
+        {% endfor %}
+        <p class="" id="stock1"></p>
+         
+      </div>
+    </div>
+      
+    {% comment %} <div class="form-row">
+      <div class="col-md-12">
+
+      <div class=" col-6 sizes mt-3">
+      <div class="col-4 input-group mb-3">
+        <h6 class="text-uppercase">Quantity</h6> 
+        <button class="quantity-up-btn btn btn-outline-secondary" type="button" onclick="incrementQuantity('{{pro.stock}}')">+</button>
+        
+        <input type="hidden" class="stock form-control" id="stock" value="{{pro.stock}}" aria-label="" aria-describedby="basic-addon1">
+
+       <input type="number" class="quantity form-control" id="quantity" value="1" aria-label="" aria-describedby="basic-addon1"> 
+        
+          
+        <button class="quantity-up-btn btn btn-outline-secondary" type="button" onclick="decrementQuantity('{{pro.stock}}')">-</button>
+        
+        </div>
+      </div>
+      </div>
+
+    </div> {% endcomment %}
+    
+    
+
+
+
+    <!-- <div class="form-row ">
+    
+    </div>  -->
+
+
+      <input type="hidden" name="productid" id="productid"  value="{{pro.id}}">
+      <input type="hidden" name="selectedcolor" id="selectedcolor"  value=""> 
+      {% comment %} <input type="hidden" name="selectedsize" id="selectedsize"  value=""> {% endcomment %}
+      <input type="hidden" name="selectedprice" id="selectedprice"  value="">
+     
+      {{message}}
+
+      <div class="ps-3" id="cartbutton" style="display:none;">
+      <button id="addToCartButton" class="addToCartButton btn btn-primary text-uppercase mr-2 px-4 " data-id="{{pro.variant.id}}"> <i class="fas fa-shopping-cart"></i>
+      Add to cart
+      </button>
+     
+   {% comment %} <a href="{% url 'add_to_wishlist' pro.id %}"><i style="font-size:24px;color:red" class="fa">&#xf08a;</i></a> {% endcomment %}
+        <a href="{% url 'add_to_wishlist' pro.id %}" class="wishlist-icon" data-product-id="{{ pro.id }}">
+        <i style="font-size:24px;color:blue" class="fa">&#xf08a;</i>
+        </a>
+       {% comment %} 
+       <a class="btn btn-primary mt-3 me-3" href="{% url 'add_to_wishlist' pro.id %}"><i class="fas fa-heart" data-product-id="{{ pro.id }}"></i>Add to Wishlist</a> {% endcomment %}
+      
+      </div>
+      
+        
+
+      <!-- <script>
+        $(document).ready(function() {
+          $("#addToCartButton").click(function() {
+            // Show pop-up message
+            alert("Added to cart");
+          });
+        });
+      </script> -->
+
+      
+      
+
+    <!-- <a id="addToCartBtn" href="{% url 'cart' %}" class="btn  btn-outline-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a> -->
+  </article> <!-- product-info-aside .// -->
+      </main> <!-- col.// -->
+    </div> <!-- row.// -->
+  </div> <!-- card.// -->
+  <!-- ============================ COMPONENT 1 END .// ================================= -->
+  
+
+  </div>
+  </section>
+
+
+
+  
+
+
+
+  <script>
+    function changeImage(imageUrl) {
+      // document.getElementById('zoom_01').src = imageUrl;
+      $('#zoom_01').attr('src', imageUrl);
+    }
+  
+    $(document).ready(function() {
+      // Loop through the images and add an onclick event to each one.
+      $(".item-thumb").each(function() {
+        $(this).on('click', function() {
+          // Get the image URL from the data-image attribute.
+          imageUrl = $(this).data('image');
+  
+          // Change the image that is displayed in the zoom element.
+          changeImage(imageUrl);
+        });
+      });
+    });
+  </script>
+
+  {% comment %} <script>
+    function changeImage(imageUrl) {
+      // document.getElementById('zoom_01').src = imageUrl;
+      $('#zoom_01').attr('src', imageUrl);
+    }
+  </script>
+  
+	<!-- image zoom -->
+	<script src="{% static 'js/jquery.ez-plus.js' %}"></script>
+  <script type="text/javascript">
+      $('#zoom_01').ezPlus(); {% endcomment %}
+  {% comment %} </script> {% endcomment %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script>
+    function updatePrice(price,stock1) {
+      var priceElement = document.getElementById("current_price");
+      priceElement.innerText = "₹ " + price;
+      
+
+      if (stock1<1){
+				var stockElement = document.getElementById("stock1");
+				stockElement.textContent = "Out of Stock";
+				var buttonElement = document.getElementById("cartbutton");
+				buttonElement.style.display = "none";
+
+			}
+			else{
+				var stockElement = document.getElementById("stock1");
+				stockElement.textContent = "Stock Available";
+				var buttonElement = document.getElementById("cartbutton");
+				buttonElement.style.display="block";
+			}
+  
+      // Get the selected color
+      var selectedColor = document.querySelector('input[name="color"]:checked');
+  
+      document.getElementById("selectedcolor").value = selectedColor.dataset.color;
+  
+      document.getElementById("selectedprice").value = price;
+    }
+  </script>
+  {% comment %} <script>
+    // Function to increment the quantity
+   function incrementQuantity(max) {
+      console.log("enter")
+      var value = parseInt(document.getElementById('quantity').value, 10);
+      
+      value = isNaN(value) ? 0 : value;
+      if (value < max) {
+        value++;
+      }
+      document.getElementById('quantity').value = value;
+      var selectedquantityInput = document.getElementById("selectedquantity");
+      selectedquantityInput.value = document.getElementById('quantity').value;
+      console.log(selectedquantityInput.value);
+    }
+  
+    // Function to decrement the quantity
+    function decrementQuantity() {
+      var value = parseInt(document.getElementById('quantity').value, 10);
+      value = isNaN(value) ? 0 : value;
+      if (value > 1) {
+        value--;
+      }
+      document.getElementById('quantity').value = value;
+      var selectedquantityInput = document.getElementById("selectedquantity");
+      selectedquantityInput.value = value;
+      //selectedquantityInput.value = document.getElementById('quantity').value;
+      console.log(selectedquantityInput.value);
+    }
+  </script>  {% endcomment %}
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
+
+   <script>
+    $(".addToCartButton").on('click', function() { 
+      console.log("add to cart button clicked");
+      
+      var productid = document.getElementById("productid").value;
+      console.log(productid);
+  
+      var selectedcolor = document.getElementById("selectedcolor").value;
+      console.log(selectedcolor);
+     
+  
+      var selectedprice = document.getElementById("selectedprice").value;
+      console.log(selectedprice);
+  
+ 
+
+ 
+  
+      var data = {
+        "productid": productid,
+        "selectedcolor": selectedcolor,
+        "selectedprice": selectedprice,
+      
+    
+        
+      };
+      console.log(data);
+  
+      $.ajax({
+        url: "{% url 'add_to_cart' %}",
+        method: "GET",
+        data: data,
+        success: function(data) {
+          console.log("code run success");
+          console.log(data.status);
+          console.log(data.message);
+        }
+      });
+    });
+
+  </script>  
+
+  <script>
+    $(document).ready(function() {
+      $('.wishlist-icon').click(function(event) {
+        console.log("button clicked")
+      event.preventDefault();  // Prevent the default link behavior
+    
+      var productId = $(this).data('product-id');
+      var url = $(this).attr('href');
+    
+      $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+        if (data.created) {
+          // Wishlist item was added successfully
+          Swal.fire({
+          icon: 'success',
+          title: 'Product Added',
+          text: 'Product added to wishlist.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+          });
+        } else {
+          // Wishlist item already exists
+          Swal.fire({
+          icon: 'info',
+          title: 'Product Already Added',
+          text: 'Product already in wishlist.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+          });
+        }
+        },
+        error: function() {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while processing the request.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        });
+        }
+      });
+      });
+    });
+  
+  
+
+    $(document).ready(function() {
+      $("#addToCartButton").click(function() {
+
+        // Show colorful pop-up message
+        Swal.fire({
+          title: 'Added to cart',
+          icon: 'success',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#ffcc00',
+          iconColor: '#ff0000',
+          text: 'Continue shopping...',
+        });
+      });
+    });
+  </script>
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+     <script>			
+      function updatePrice(price) {
+        var priceElement = document.getElementById("current_price");
+        priceElement.innerText = "₹ " + price;
+  
+        // Get the selected size
+        var selectedColor = document.querySelector('input[name="color"]:checked');
+  
+        document.getElementById("selectedcolor").value =selectedColor.dataset.color ;
+  
+        document.getElementById("selectedprice").value =price ;
+        }
+  
+        // Function to increment the quantity
+        function incrementQuantity(max) {
+              var value = parseInt(document.getElementById('quantity').value, 10);
+              value = isNaN(value) ? 0 : value;
+              if( value < max){
+                 
+                 value++;
+  
+              }
+              document.getElementById('quantity').value = value;
+              var selectedquantityInput = document.getElementById("selectedquantity")
+           selectedquantityInput.value = document.get('quantity').value
+      console.log(selectedquantityInput.value)
+         }
+  
+         
+           // Function to decrement the quantity
+           function decrementQuantity() {
+              var value = parseInt(document.getElementById('quantity').value, 10);
+              value = isNaN(value) ? 0 : value;
+              if (value > 1){
+                 value--;
+              }
+              
+              document.getElementById('quantity').value = value;
+              var selectedquantityInput = document.getElementById("selectedquantity")
+           selectedquantityInput.value = document.getElementById('quantity').value
+           console.log(selectedquantityInput.value)
+         }
+  
+  
+  
+        $(".addToCartButton").on('click', function() {
+              console.log("add to cart button clicked")
+        }
+
+        
+        
+              var productid = document.getElementById("productid").value;
+             console.log(productid)
+  
+              // var selectedcolor = document.getElementById("selectedcolor").value;
+              var selectedcolor = document.getElementById("selectedcolor").value;
+           console.log(selectedcolor)
+  
+              var selectedprice = document.getElementById("selectedprice").value;
+           console.log(selectedprice)
+              var selectedquantity = document.getElementById("quantity").value;
+           console.log(selectedquantity)
+  
+              data = {"productid" : productid,"selectedcolor":selectedcolor,"selectedprice":selectedprice,"quantity":selectedquantity}
+  
+              $.ajax({
+                 url:"{% url 'add_to_cart' %}",
+                 method:"GET",
+                 data:data,
+  
+                 success: function(data) {
+                    console.log("code run success")
+                    console.log(data.status)
+                    console.log(data.message)
+                 }
+              })
+  
+           )
+      </script>
+
+  
+  <script>
+    $(document).ready(function() {
+      $('.wishlist-icon').click(function(event) {
+      event.preventDefault();  // Prevent the default link behavior
+    
+      var productId = $(this).data('product-id');
+      var url = $(this).attr('href');
+    
+      $.ajax({
+        url: url,
+        type: 'GET',
+        success: function(data) {
+        if (data.created) {
+          // Wishlist item was added successfully
+          Swal.fire({
+          icon: 'success',
+          title: 'Product Added',
+          text: 'Product added to wishlist.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+          });
+        } else {
+          // Wishlist item already exists
+          Swal.fire({
+          icon: 'info',
+          title: 'Product Already Added',
+          text: 'Product already in wishlist.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+          });
+        }
+        },
+        error: function() {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'An error occurred while processing the request.',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'OK'
+        });
+        }
+      });
+      });
+    });
+    </script> 
+  
+    <script>
+    $(document).ready(function() {
+      $("#addToCartButton").click(function() {
+        // Show colorful pop-up message
+        Swal.fire({
+          title: 'Added to cart',
+          icon: 'success',
+          showCancelButton: false,
+          showConfirmButton: false,
+          timer: 1500,
+          background: '#ffcc00',
+          iconColor: '#ff0000',
+          text: 'Continue shopping...',
+        });
+      });
+    });
+  </script> 
+  
+
+      
+  {% endblock %}
+
+
+
+
+
+

@@ -1,0 +1,39 @@
+{% comment %} {% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- filter-brands.html -->
+<section class="section-content padding-y bg">
+    <div class="container">
+        <div class="row">
+            {% if products %}
+                {% for brands in products %}
+                    <!-- Display filtered products by brand -->
+
+                    <div class="col-md-4">
+                        <figure class="card card-product-grid">
+                            <div class="img-wrap">
+                                <a href="{% url 'product_detail' brands.id %}"><img src="{{ brands.images.url }}"></a>
+                            </div> <!-- img-wrap.// -->
+                            <figcaption class="info-wrap">
+                                <div class="fix-height">
+                                    <a href="{% url 'product_detail' brands.id %}" class="title">{{ brands.product_name }}</a>
+                                    <div class="price-wrap mt-2">
+                                        <span class="price">₹ {{ brands.price }}</span>
+                                    </div> <!-- price-wrap.// -->
+                                </div>
+                                <a href="{% url 'product_detail' brands.id %}" class="btn btn-block btn-primary">View Details</a>
+                            </figcaption>
+                        </figure>
+                    </div> <!-- col.// -->
+                {% endfor %}
+            {% else %}
+                <div>
+                    <h2>No products found for the selected brand.</h2>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+{% endblock %} {% endcomment %}

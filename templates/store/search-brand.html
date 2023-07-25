@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section-conten padding-y bg">
+
+{% include 'includes/alerts.html' %}
+
+    <div class="container">
+        <div class="row">
+            {% for p in product %}
+            <div class="col-sm-8 offset-sm-2 text-center colorlib-heading">
+                <h2>{{p.Brand}} Watches</h2>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="row row-pb-md">
+            {% for p in product %}
+            <div class="col-lg-3 mb-4 text-center">
+                <div class="product-entry border">
+                    <!-- <div class="position-absolute top-0 start-0">
+                        <a href="{% url 'wishlist' %}"><i class="fa fa-heart-o"></i></a></div> -->
+                    <a href="{% url 'product_details' p.id %}" class="prod-img">
+                        <img src="{{MEDIA_URL}}{{p.image.url}}" class="img-fluid" alt="Free html5 bootstrap 4 template">
+                    </a>
+                    
+                    <div class="desc">
+                        <h2>{{p.product_name}}</h2>
+                        <h2>{{p.Brand}}</h2>
+                        <span class="price">₹{{p.price}}.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+            {% endfor %}
+
+
+            
+            
+            
+            <div class="w-100"></div>
+
+            {% endblock %}

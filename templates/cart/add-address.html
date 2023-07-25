@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+
+<section class="section-content padding-y bg">
+<div class="container mt-4">
+
+
+    <h1>Add Address</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+             
+        <input type="submit" class="btn btn-primary" value="Add Address">
+    </form>
+</div> 
+</section>
+
+{% endblock %}

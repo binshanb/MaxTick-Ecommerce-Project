@@ -1,0 +1,34 @@
+{% load static %}
+<!-- ========================= FOOTER ========================= -->
+<footer class="section-footer border-top">
+	<div class="container">
+		<section class="footer-bottom border-top row">
+			<div class="col-md-3">
+				<p class="text-muted"> &copy 2023 MaxTick Watches. </p>
+			</div>
+			<div class="col-md-7 text-md-center">
+				<span  class="px-2">info@maxtick.io</span>
+				<span  class="px-2">+91-99999-55555</span>
+				<span  class="px-2">Edappally-Kochi,Kerala</span>
+			</div>
+			<div class="col-md-2 text-md-right text">
+				<i class="fab fa-lg fa-cc-visa"></i>
+				<i class="fab fa-lg fa-cc-paypal"></i>
+				<i class="fab fa-lg fa-cc-mastercard"></i>
+			</div>
+		</section>
+	</div><!-- //container -->
+</footer>
+<!-- ========================= FOOTER END // ========================= -->
+{% comment %} <script src="{% static 'https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js' %}"></script> {% endcomment %}
+<script>
+	$(document).ready(function(){
+		$('.thumb a').click(function(e){
+			e.preventDefault();
+			$('.mainImage img').attr('src', $(this).attr("href"));
+		})
+	})
+</script>
+
+</body>
+</html>

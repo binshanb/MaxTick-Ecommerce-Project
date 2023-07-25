@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+<section class="section-content padding-y bg">
+    
+    <div class="container mt-4">
+        <h1>Edit Address</h1>
+        <form method="post" action="">
+            {% csrf_token %}
+            
+            {{ product_form.as_p }}
+                 
+            <button type="submit">Save changes</button>      
+        </form>
+    </div> 
+</section>
+
+{% endblock %}

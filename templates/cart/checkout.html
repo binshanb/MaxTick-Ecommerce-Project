@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<section class="section-content padding-y bg">
+    <div class="container">
+    
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- <div class="colorlib-form"> -->
+                    <h2>Your Address</h2>
+                    <hr>
+                  <div class="row">
+                    
+
+                    <div class="col-md-12">
+                      <!-- <div class="form-group"> -->
+                        <form id="addressForm">
+                            {% csrf_token %}
+                        {% if address %}
+                        {% for ads in address %}
+                        
+                        <h2>{{ads.name}},</h2>
+                        <h6>{{ads.house_name}}, {{ads.address_line_1}}, {{ads.city}},<br> {{ads.state}}, Pincode: {{ads.pincode}}, {{ads.country}}, Phone number: {{ads.phone}}</h6>
+                        <a href="{% url 'edit_address' ads.id %}" class="mb-5 "><i style="font-size:24px" class="fa">&#xf044;</i>
+                        </a>
+                        <a href="{% url 'delete_address' ads.id %}"><i class="material-icons">&#xe872;</i></a>
+                        <br>
+                        <a href="{% url 'payments' ads.id %}" class="btn btn-success">Select</a>
+                        <hr>
+                        
+
+                        
+
+                        {% endfor %}
+
+                        {% else %}
+                        <h2>Your Address Is Empty.</h2>
+                        {% endif %}
+                        </form>
+                            
+                      <!-- </div> -->
+                   </div>
+                        <div class="col-md-12">
+                            <a href="{% url 'Add_address' %}" class="btn btn-primary btn-lg mt-5">Add Address</a>
+                        </div>
+               </div>
+                <!-- </div> -->
+            </div>
+     
+
+            <div class="col-lg-4">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="cart-detail">
+                            <div class="card" style="width: 18rem;">
+                               
+              
+
+                         
+                            <div class="card" style="width: 18rem;">
+                                <div class="card-body">
+                            <h2>Cart Total</h2>
+                            <ul>
+                                <li><span>Total Items</span> <span>{{total}}</span></li>
+
+                                <li>
+                                    <span>Subtotal</span> <span>₹  {{sum}}</span>
+                                    <!-- <ul>
+                                        <li><span>1 x Product Name</span> <span>$99.00</span></li>
+                                        <li><span>1 x Product Name</span> <span>$78.00</span></li>
+                                    </ul> -->
+                                </li>
+                                <li><span>Shipping</span> <span>₹ 0.00</span></li>
+                                <li><span>Order Total</span> <span>₹  {{sum}}</span></li>
+                            </ul>
+
+                            {% comment %} <button type="submit" name="submit" class="btn btn-primary btn-block">Apply Coupon</button> {% endcomment %}
+                            <a href="{% url 'store' %}" class="btn btn-primary btn-block">Continue Shopping</a>
+                        </div>
+                   </div>
+                </div>
+            </div>
+
+                   <div class="w-100"></div>
+
+                   <!-- <div class="col-md-12">
+                        <div class="cart-detail">
+                            <h2>Payment Method</h2>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                       <label><input type="radio" name="optradio"> Direct Bank Tranfer</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                       <label><input type="radio" name="optradio"> Check Payment</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="radio">
+                                       <label><input type="radio" name="optradio"> Paypal</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="checkbox">
+                                       <label><input type="checkbox" value=""> I have read and accept the terms and conditions</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <!-- <p><a href="#" class="btn btn-primary">Make Payment</a></p> -->
+                        <!-- <button onclick="placeOrder()">Place an Order</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function placeOrder() {
+        // Get the selected radio button value
+        const selectedAddress = document.querySelector('input[name="address"]:checked');
+    
+        if (selectedAddress) {
+            // Retrieve the value from the selected radio button
+            const addressId = selectedAddress.value;
+            
+            // Pass the value to the next page (example: redirect with URL parameter)
+            window.location.href = "/next-page?addressId=" + addressId;
+            
+            // Alternatively, store the value in a form field and submit the form
+            // document.getElementById("hiddenField").value = addressId;
+            // document.getElementById("addressForm").submit();
+        } else {
+            alert("Please select an address");
+        }
+    }
+</script>
+</div>
+</section>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+        {% comment %} <div class="row row-pb-lg">
+            <div class="col-sm-10 offset-md-1">
+                <div class="process-wrap">
+                    <div class="process text-center active">
+                        <p><span>01</span></p>
+                        <h3>Shopping Cart</h3>
+                    </div>
+                    <div class="process text-center active">
+                        <p><span>02</span></p>
+                        <h3>Checkout</h3>
+                    </div>
+                    <div class="process text-center">
+                        <p><span>03</span></p>
+                        <h3>Order Complete</h3>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}

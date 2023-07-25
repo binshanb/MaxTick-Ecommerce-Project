@@ -1,0 +1,248 @@
+const targetElement = (window.boostSDLoadConfig || {}).targetElement || window;
+
+targetElement.addEventListener('DOMContentLoaded', async () => {
+  function loadResource(script, position = 'body') {
+    return new Promise((resolve, reject) => {
+      script.onload = function () {
+        resolve(true);
+      };
+
+      script.onerror = function (error) {
+        reject(error);
+      };
+
+      switch (position) {
+        case 'head': {
+          document.head.appendChild(script);
+        }
+
+        case 'body': {
+          document.body.appendChild(script);
+        }
+      }
+    });
+  }
+
+  const themeInfo = window.boostSDAppConfig.themeInfo || {
+    boostThemeLib: 'default',
+    boostThemeLibVersion: 'latest',
+  };
+
+  const page = window.boostSDAppConfig.generalSettings.page;
+
+  if (window.boostSDAppConfig.filterSettings) {
+    const filterLayout =
+      ((((window.boostSDAppConfig || {}).themeInfo || {}).taeFeatures || {}).filterLayout || {})[
+        page
+      ] || 'vertical';
+    window.boostSDAppConfig.filterSettings.filterLayout = filterLayout;
+  }
+
+  const recommendationWidgetPlacementIdPrefix = 'boost-sd-widget-';
+  const recommendationWidgetPlacements = document.querySelectorAll(
+    `[id^='${recommendationWidgetPlacementIdPrefix}']`
+  );
+  const hasRecommendationBlock = !!recommendationWidgetPlacements.length;
+
+  const hasFilterBlock = !!document.querySelectorAll('.boost-sd__filter-block').length;
+
+  const taeFeatures = !!Object.keys(themeInfo.taeFeatures || {}).length
+    ? themeInfo.taeFeatures
+    : {
+        filterLayout: {
+          collection: 'vertical',
+          search: 'vertical',
+        },
+        instantSearch: 'not-installed',
+        filterCollection: hasFilterBlock ? 'installed' : 'not-installed',
+        filterSearch: hasFilterBlock ? 'installed' : 'not-installed',
+        recommendation: hasRecommendationBlock ? 'installed' : 'not-installed',
+        env: 'production',
+      };
+
+  const env = taeFeatures.env || 'production';
+  const theme = themeInfo.boostThemeLib || 'default';
+
+  // Use when deploy a draft version on production for testing
+  // const version = "latest";
+  // const cdn = 'https://boost-cdn-staging.bc-solutions.net';
+
+  const version = env === 'staging' ? 'staging' : themeInfo.boostThemeLibVersion || 'latest';
+  const cdn = window.boostSDAppConfig.api.cdn || 'https://boost-cdn-staging.bc-solutions.net';
+  const featureAssetBaseURL = `${cdn}/theme/${theme}/${version}`;
+
+  const enableFilter =
+    (page === 'collection' && taeFeatures.filterCollection === 'installed') ||
+    (page === 'search' && taeFeatures?.filterSearch === 'installed');
+  const enableSearch = taeFeatures?.instantSearch === 'installed';
+  const enableRecommendation =
+    taeFeatures?.recommendation === 'installed' || hasRecommendationBlock;
+
+  if (window.boostSDAppConfig.mode === 'development') return;
+
+  let assetUrl =
+    (window.boostSDAppConfig && window.boostSDAppConfig.generalSettings.assets_url) ||
+    (window.boostSDAssetFileURL || '').split('boost_sd_assets_file_url.gif')[0];
+
+  if (!assetUrl) {
+    console.warn('[Boost]: Cannot detect assets url');
+  }
+
+  if (assetUrl) {
+    try {
+      const customScript = document.createElement('script');
+      customScript.setAttribute('async', true);
+      customScript.setAttribute(
+        'src',
+        (window.boostSDAppConfig && window.boostSDAppConfig.generalSettings.custom_js_asset_url) ||
+          `${assetUrl}/boost-sd-custom.js?v=${Date.now()}`
+      );
+
+      await loadResource(customScript, 'head');
+    } catch {}
+  }
+
+  const integrationExisted = !!window.boostSDAppConfig.integration;
+  const hasFeatureEnabled = enableFilter || enableSearch || enableRecommendation;
+
+  if (integrationExisted && hasFeatureEnabled) {
+    try {
+      const integrationScript = document.createElement('script');
+      const version = env === 'staging' ? 'staging' : 'latest';
+      integrationScript.src = `${cdn}/integration/${version}/boost-sd-integration.js?v=${Date.now()}`;
+      integrationScript.async = true;
+
+      await Promise.all([loadResource(integrationScript, 'head')]);
+    } catch {}
+  }
+
+  const featureScripts = [];
+
+  if (!document.querySelector('script#boost-sd-vendor')) {
+    const vendorScript = document.createElement('script');
+
+    const vendorScriptSrc = `${featureAssetBaseURL}/vendor.js?v=${Date.now()}`;
+    vendorScript.setAttribute('defer', true);
+    vendorScript.setAttribute('src', vendorScriptSrc);
+    vendorScript.setAttribute('id', 'boost-sd-vendor');
+
+    featureScripts.push({
+      script: vendorScript,
+      position: 'head',
+    });
+  }
+
+  if (!document.querySelector('script#boost-sd-main')) {
+    const mainScript = document.createElement('script');
+
+    const mainScriptSrc = `${featureAssetBaseURL}/main.js?v=${Date.now()}`;
+
+    mainScript.setAttribute('defer', true);
+    mainScript.setAttribute('src', mainScriptSrc);
+    mainScript.setAttribute('id', 'boost-sd-main');
+
+    featureScripts.push({
+      script: mainScript,
+      position: 'body',
+    });
+  }
+
+  if (enableSearch && !document.querySelector('script#boost-sd-search')) {
+    const searchScript = document.createElement('script');
+
+    const searchScriptSrc = `${featureAssetBaseURL}/search.js?v=${Date.now()}`;
+
+    searchScript.setAttribute('defer', true);
+    searchScript.setAttribute('src', searchScriptSrc);
+    searchScript.setAttribute('id', 'boost-sd-search');
+
+    featureScripts.push({
+      script: searchScript,
+      position: 'head',
+    });
+  }
+
+  if (enableFilter) {
+    const filterScript = document.createElement('script');
+    const filterScriptSrc = `${featureAssetBaseURL}/filter.js?v=${Date.now()}`;
+
+    filterScript.setAttribute('defer', true);
+    filterScript.setAttribute('src', filterScriptSrc);
+
+    featureScripts.push({
+      script: filterScript,
+      position: 'body',
+    });
+  }
+
+  if (window.boostSDAppConfig.generalSettings.rtl) {
+    const rtlScript = document.createElement('script');
+    const rtlScriptSrc = `${cdn}/app/latest/boost-sd-rtl.js?v=${Date.now()}`;
+
+    rtlScript.setAttribute('defer', true);
+    rtlScript.setAttribute('src', rtlScriptSrc);
+
+    featureScripts.push({
+      script: rtlScript,
+      position: 'head',
+    });
+  }
+
+  if (enableRecommendation && !document.querySelector('script#boost-sd-recommendation')) {
+    const recommendationScript = document.createElement('script');
+    const recommendationScriptSrc = `${featureAssetBaseURL}/recommendation.js?v=${Date.now()}`;
+
+    recommendationScript.setAttribute('defer', true);
+    recommendationScript.setAttribute('src', recommendationScriptSrc);
+    recommendationScript.setAttribute('id', 'boost-sd-recommendation');
+
+    featureScripts.push({
+      script: recommendationScript,
+      position: 'body',
+    });
+  }
+
+  try {
+    await Promise.all(featureScripts.map(({ script, position }) => loadResource(script, position)));
+  } catch {}
+
+  try {
+    if (!document.querySelector('script#boost-sd-analytic')) {
+      const analyticScript = document.createElement('script');
+      const analyticsScriptSrc = `${cdn}/analytic/${
+        env === 'staging' ? 'staging' : 'latest'
+      }/boost-sd-analytic.js?v=${Date.now()}`;
+
+      analyticScript.setAttribute('defer', true);
+      analyticScript.setAttribute('src', analyticsScriptSrc);
+      analyticScript.setAttribute('id', 'boost-sd-analytic');
+
+      loadResource(analyticScript, 'body');
+    }
+  } catch {}
+
+  if (window.boostSDAppConfig.generalSettings.rtl) {
+    const rtlScript = document.createElement('script');
+    const rtlScriptSrc = `${cdn}/app/latest/boost-sd-rtl.js?v=${Date.now()}`;
+
+    rtlScript.setAttribute('defer', true);
+    rtlScript.setAttribute('src', rtlScriptSrc);
+
+    try {
+      await loadResource(rtlScript, 'head');
+    } catch {}
+  }
+
+  if (assetUrl) {
+    const customCSSLink = document.createElement('link');
+    customCSSLink.rel = 'stylesheet';
+    customCSSLink.type = 'text/css';
+    customCSSLink.href =
+      (window.boostSDAppConfig && window.boostSDAppConfig.generalSettings.custom_css_asset_url) ||
+      `${assetUrl}/boost-sd-custom.css?v=${Date.now()}`;
+
+    try {
+      await loadResource(customCSSLink, 'head');
+    } catch {}
+  }
+});

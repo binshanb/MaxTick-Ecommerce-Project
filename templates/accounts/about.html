@@ -1,0 +1,116 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<body>
+  
+  <main>
+    <section class="section-conten padding-y bg">
+
+      {% include 'includes/alerts.html' %}
+      <div class="container">
+        <div class="row">
+      <h1>Welcome to MaxTick Watch Collections</h1>
+
+      
+      <p>Discover a world of exquisite timepieces that combine style, precision, and timeless elegance. At Your Watch Shop, we offer an extensive collection of wristwatches to suit every taste and occasion. Whether you're searching for a classic design or a statement piece, we have the perfect watch for you.</p>
+    </div>
+  </div>
+    </section>
+
+    <section>
+      <div class="container">
+      <div class="row">
+
+      <h2>About MaxTick</h2>
+      <p>MaxTick is a premier destination for watch enthusiasts and collectors. Our passion for horology is reflected in our carefully curated selection of renowned brands and independent watchmakers. With a focus on craftsmanship and exceptional quality, we strive to provide our customers with the finest timepieces available in the market.</p>
+      </div>
+    </div>
+    </section>
+
+
+    <section>
+      <div class="container">
+      <div class="row">
+
+      <h2>Explore Our Collection</h2>
+      <p>From elegant dress watches to rugged sports timepieces, our collection encompasses a wide range of styles and functionalities. Each watch is meticulously chosen for its exceptional design, reliability, and performance. Browse our selection and find the watch that perfectly matches your personal style and preferences.</p>
+      <a href="{% url 'store' %}" class="cta-button">View Collection</a>
+      </div>
+    </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="row">
+      <h2>Visit Our Store</h2>
+      <p>Experience the world of watches firsthand at our physical store. Located in a prime location, our store provides a welcoming atmosphere for you to explore our collection in person. Our knowledgeable staff is ready to assist you in finding the perfect timepiece and answer any questions you may have.</p>
+    <br><br>
+    </div>
+  </div>
+    </section>
+  </main>
+
+ 
+</body>
+{% endblock %}
+
+
+ 
+
+
+
+
+
+
+   {% comment %} <div class="header_top_left">
+	  	      <div class="box_11"><a href="checkout.html">
+		      <h4><p>Cart: <span class="simpleCart_total"></span> (<span id="simpleCart_quantity" class="simpleCart_quantity"></span> items)</p><img src="{% static 'images/bag.png' %}" alt=""/><div class="clearfix"> </div></h4>
+		      </a></div>
+	          <p class="empty"><a href="javascript:;" class="simpleCart_empty">Empty Cart</a></p>
+	          <div class="clearfix"> </div>
+	       </div> {% endcomment %}
+
+		   	{% comment %} <div class="col1">
+							<div class="h_nav">
+								<h4>Women</h4>
+								<ul>
+									<li><a href="men.html">Watches</a></li>
+								
+								</ul>	
+							</div>							
+						</div> {% endcomment %}
+
+						{% comment %} <div class="col1">
+							<div class="h_nav">
+								<h4>Men</h4>
+								<ul>
+									<li><a href="men.html">Watches</a></li>
+									<li><a href="men.html">watches</a></li>
+									<li><a href="men.html">Blazers</a></li>
+									<li><a href="men.html">Suits</a></li>
+									<li><a href="men.html">Trousers</a></li>
+									<li><a href="men.html">Jeans</a></li>
+									<li><a href="men.html">Shirts</a></li>
+									<li><a href="men.html">Sweatshirts & Hoodies</a></li>
+									<li><a href="men.html">Swim Wear</a></li>
+									<li><a href="men.html">Accessories</a></li>
+								</ul>	
+							</div>							
+						</div> {% endcomment %}
+
+						{% comment %} <header> {% endcomment %}
+    <!-- Include MY website's navigation bar or logo here -->
+    {% comment %} <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header> {% endcomment %}
+
+   {% comment %} <p>Visit us at:</p>
+      <p>123 Time Avenue, Cityville</p>
+      <p>Opening hours: Mon-Sat, 10 AM - 6 PM</p> {% endcomment %}

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+
+<section class="section-content padding-y bg">
+    
+    <div class="container mt-4">
+
+        <h1>Edit Profile</h1>
+        <hr>
+
+        
+       
+                 
+      
+
+
+   {% comment %} <form action="{% url 'edit_profile' %}" method="post">
+    {% csrf_token %}
+    {% if address %}
+
+    <input type="text" name="name" value="{{ address.name }}" />
+    <input type="text" name="first_name" value="{{ address.phone }}" />
+    <input type="text" name="last_name" value="{{ address.house_name }}" />
+    <input type="email" name="email" value="{{ address.city }}" />
+
+    <input type="submit" value="Save" />
+</form>
+{% endif %} {% endcomment %}
+        {% comment %} <h1>Edit Profile</h1>
+        <form method="post" action="">
+            {% csrf_token %}
+            
+            {{ product_form.as_p }}
+                 
+            <button type="submit">Save changes</button>      
+        </form> {% endcomment %}
+ 
+
+{% comment %} <section class="section-content padding-y bg">
+    
+    <div class="container mt-4">
+
+  <h1>Edit Profile</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <button type="submit">Save Changes</button>
+  {% comment %} </form> {% endcomment %}
+
+</form>
+{% if address %}
+
+{% for ads in address %}
+
+  <h2>User Information</h2>
+  <hr>
+  <p>Name: {{ ads.name }}</p>
+  <p>Phone: {{ ads.phone }}</p>
+
+
+
+    <h2>Billing Address</h2>
+    <hr>
+    <p>House Name: {{ ads.house_name }}</p>
+    <p>Address Line: {{ ads.address_line_1 }}</p>
+    <p>City: {{ ads.city }}</p>
+    <p>State: {{ ads.state }}</p>
+    <p>Pincode: {{ ads.pincode }}</p>
+    <p>Country: {{ ads.country }}</p>
+    <!-- Add more fields as needed -->
+
+    <a href="{% url 'edit_address_user' ads.id %}" class="btn btn-success">Edit Profile</a>
+
+    {% endfor %}
+    
+    {% else %}
+
+    <h2>Your Address Is Empty.</h2>
+
+  {% endif %}
+
+
+
+
+</div>
+</section> 
+
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<section class="section-content padding-y bg">
+
+{% include 'includes/alerts.html' %}
+<div class="container">
+	<div class="row">
+	{% include 'includes/dashboard_sidebar.html' %}
+<section class="cart-total-page spad">
+  <div class="container">
+      <form action="{% url 'Add_address' %}" class="checkout-form" method="POST">
+          {% csrf_token %}
+          <div class="row">
+              <div class="col-lg-12">
+                  <h3>Your Information</h3>
+              </div>
+              <div class="col-lg-9">
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">Name*</p>
+                      </div>
+                      <div class="col-lg-5">
+                          {{ form.first_name }}
+                      </div>
+                      <div class="col-lg-5">
+                          {{ form.last_name }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">Street Address*</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.address_line_1 }}
+                          {{ form.address_line_2 }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">City*</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.city }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">State*</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.state }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">Country</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.country }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">Post Code/ZIP*</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.pincode }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">Phone*</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.phone }}
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-lg-2">
+                          <p class="in-name">Email*</p>
+                      </div>
+                      <div class="col-lg-10">
+                          {{ form.email }}
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <br>
+          <br>           
+          <button type="submit" name="submit" class="site-btn" >Save Address</button>
+      </form>
+      
+  </div>
+</section>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+      
+
+    
+    
+   

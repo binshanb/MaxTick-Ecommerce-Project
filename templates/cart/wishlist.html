@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<section class="section-content padding-y bg">
+<div class="container">
+
+    <div class="row row-pb-lg">
+        <div class="col-md-10 offset-md-1">
+            <div class="card mb-3" style="max-width: 780px;border: none;">
+                {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+               
+                {% for w in wishlist_items %}
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <a href="{% url 'product_detail' w.product.id %}"><img src="{{MEDIA_URL}}{{w.product.images.url}} " class="img-fluid rounded-start" alt="Images"></a>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card-body">
+                      <h5 class="card-title">{{w.product.product_name}}</h5>
+                      {% comment %} <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.{{item.product.description}}</p> {% endcomment %}
+                      <p class="card-text"><large class="text-muted">₹{{ w.product.price}}</large></p>
+                      <!-- <p class="card-text"><small class="text-muted">Size : {{ cart_item.product_variant.size}}</small></p> -->
+                      {{prod}}
+
+
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">  
+                            <a href="{% url 'remove_from_wishlist' w.product.id %}" class="card-link btn btn-danger ml-5">Remove</a>
+                  
+                   </div>	
+                </div>
+              </div>
+              
+          {% endfor %}
+            </div>
+            
+
+        </div>
+    </div>
+    <div class="row">
+        
+    </div>
+    <div class="row">
+        
+        
+    </div>
+</div>
+</div>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,149 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+<section class="section-content padding-y bg">
+
+
+  <div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+
+    <div class="card-body">
+    <h4 class="card-title mb-4">Sign in</h4>
+    {% include 'includes/alerts.html' %}
+    <form action="{% url 'signin' %}" method="POST">
+      {% csrf_token %}
+        <div class="form-group">
+     <input type="email" class="form-control" placeholder="Email Address" id="email" name="email">
+        </div> <!-- form-group// -->
+        <div class="form-group">
+    <input type="password" class="form-control" placeholder="Password" id="pass1" name="pass1">
+        </div> <!-- form-group// -->
+
+        <div class="form-group">
+          <a href="{% url 'forgot_password' %}" class="float-right">Forgot password?</a>
+
+        </div> <!-- form-group form-check .// -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block mb-2"> Login </button>
+        </div>
+         <!-- form-group// -->
+         <div class="otp">
+          <button class="btn btn-primary btn-block"><a href="{% url 'phone_verify' %}" style="text-decoration: none; color: #FFFFFF;">OTP Login</a></button>
+         </div>
+    </form>
+    </div> <!-- card-body.// -->
+  </div> <!-- card .// -->
+
+   <p class="text-center mt-4">Don't have account? <a href="{% url 'signup' %}">Sign up</a></p>
+   <br><br>
+<!-- ============================ COMPONENT LOGIN  END.// ================================= -->
+
+
+</section>
+{% endblock %}
+
+  {% comment %} {% include 'includes/alerts.html' %}
+  <div class="container">
+    <div class="row">
+    {% include 'includes/dashboard_sidebar.html' %}
+   <div class="account-in">
+   	 <div class="container">
+   	   <h3>Login Account</h3>
+		<div class="col-md-7 account-top">
+		  <form method="POST">
+			{% csrf_token %}
+			<div> 	
+				<span>Email*</span>
+				 <input type="text" id ="email" name="email" class="form-control form-control-lg" required=""> 
+			</div>
+			<div> 
+				<span >Password*</span>
+
+				<input type="password" id ="pass1" name="pass1" class="form-control form-control-lg" required="">
+			</div>	
+			<div class="col ">
+				
+				<a href="#">Forgot password?</a>
+			  </div>			
+			<input type ="submit" class = "btn btn-success " value = "Login">
+			<a class="btn btn-primary" href="#" role="button">OTP Login</a>
+		   </form>
+		</div>
+    <p class="text-center mt-4">Don't have account? <a href="{% url 'signup' %}">Sign up</a></p>
+
+    <br><br>
+		<div class="col-md-5 left-account ">
+			<a href="single.html"><img class="img-responsive " src="{% static 'images/banner2.jpg' %}" alt=""/></a>
+			{% comment %} <a href="{% url 'signup' %}" class = "btn btn-primary ">Create an account</a> {% endcomment %}
+			 {% comment %} <div class="five-in"> 
+			</div>  {% endcomment %}
+{% comment %} 			
+			<div class="clearfix"> </div> 
+		 </div>
+	    <div class="clearfix"> </div> 
+	  </div>
+   </div> {% endcomment %}
+ 	
+
+
+
+
+
+{% comment %} {% extends 'base.html' %}
+{%  load static %} 
+{% block content %}
+{% include 'navbar.html' %}
+<!-- Section: Design Block -->
+<section class=" text-center text-lg-start">
+    <div class="card mb-3">
+      <div class="row g-0 d-flex align-items-center">
+        <div class="col-lg-4 d-none d-lg-flex">
+          <img src="{% static 'img/pexels-the.jpg' %}" alt="Trendy Pants and Shoes"
+            class="w-100 rounded-t-5 rounded-tr-lg-0 rounded-bl-lg-5" />
+        </div>
+        <div class="col-lg-8">
+          <div class="card-body py-5 px-md-5">
+  
+            <form action = " {% url 'signin' %}" method = "POST">
+              <!-- Email input -->
+              {% csrf_token %}
+              <div class="form-outline mb-4">
+                {% include 'alerts.html' %}
+                <label class="form-label" for="form2Example1">Email address</label>
+                <input type="email" id="email" class="form-control"  placeholder = "Email address" name = "email" >
+              </div>
+  
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+               
+                <label class="form-label" for="form2Example2">Password</label>
+                <input type="password" id="password" class="form-control" placeholder = "Password" name = "password" >
+              </div>
+  
+              <!-- 2 column grid layout for inline styling -->
+              <div class="row mb-4">
+                <div class="col d-flex justify-content-center">
+                  <!-- Checkbox -->
+                  <div class="text-center">
+                    <p>Not a member? <a href="{% url 'register' %}">Register</a></p>
+                  </div>
+                </div>
+  
+                <div class="col ">
+                  <!-- Simple link -->
+                  <a href="{% url 'forgotpassword' %}">Forgot password?</a>
+                </div>
+              </div>
+  
+              <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+  
+            </form>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Section: Design Block -->
+{% endblock content %} {% endcomment %}
