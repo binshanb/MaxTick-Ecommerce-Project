@@ -235,7 +235,7 @@ def edit_address(request, id):
     context = {
         "product_form": product_form
     }
-    return render(request, 'cart/edit-address.html', context)
+    # return render(request, 'cart/edit-address.html', context)
 
 
 # user profile edit address
