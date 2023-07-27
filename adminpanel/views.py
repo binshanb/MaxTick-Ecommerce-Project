@@ -2,7 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib import messages,auth
 import calendar
 from django.db.models import Count
-from django.db.models.functions import ExtractMonth,ExtractYear
+from django.db.models.functions import ExtractMonth,ExtractYear,ExtractDay
 from django.shortcuts import get_object_or_404
 # from multiupload.fields import MultiFileField
 from django.views.decorators.cache import never_cache
@@ -16,12 +16,15 @@ from store.forms import CategoryForm,ProductImageForm,ProductForm,BrandForm,Colo
 from django.forms import BaseModelFormSet
 
 from accounts.models import CustomUser
+from .forms import DateFilterForm
 
 from store.models import Category,Product,ProductImage,Brand,Color,ProductVariant
 from orders.models import Orders,ProductOrder
 from django.forms import formset_factory
 from django.forms import inlineformset_factory
 from django.db.models import Q
+from datetime import datetime
+
 # Create your views here.
 
 # add multiple images
@@ -91,6 +94,34 @@ def sales_report(request):
     return render(request, 'admin/sales-report.html', context)
 
 
+# views.py
+
+
+
+def sales_date(request):
+    if request.method == 'GET':
+        form = DateFilterForm(request.GET)
+        # order_by_date = Orders.objects.annotate(month=ExtractDay('created_at')).values('day').annotate(count=Count('id')).values('day','count')
+        # totalOrders = []
+        # for o in order_by_date:
+        #  totalOrders.append(list(o.values())[1])
+
+        if form.is_valid():
+            start_date = form.cleaned_data['start_date']
+            end_date = form.cleaned_data['end_date']
+
+            # Query the sales data within the specified date range
+            sales_data = Orders.objects.filter(created_at__range=[start_date, end_date])
+
+            return render(request, 'admin/sales-report-daily.html', {'sales_data': sales_data, 'form': form,})
+
+    else:
+        form = DateFilterForm()
+
+    return render(request, 'admin/sales-report-daily.html', {'form': form})
+
+
+
 def sales_report_by_products(request,id):
     product = Product.objects.get(pk=id)
     orders = ProductOrder.objects.filter(product=product)
@@ -145,17 +176,20 @@ def ad_logout(request):
     messages.success(request,"Logged out Successfully")
     return redirect('ad_login')
 
+
+def ad_search(request):
+    users = []
+    if request.method == 'POST':
+        query = request.POST['query']
+        users = CustomUser.objects.filter(Q(email__icontains=query))
+    return render(request, "admin/ad-search.html",{'users':users})
+
 @login_required(login_url="ad_login")
 def user_info(request):
     stud = CustomUser.objects.all()
     return render(request, "admin/user-info.html", {'stud':stud})
 
-def search(request):
-    users = []
-    if request.method == 'POST':
-        query = request.POST['query']
-        users = CustomUser.objects.filter(Q(email__icontains=query)|Q(id__contains=query))
-    return render(request, "admin/search.html", {'users':users})
+
 
 def block_user(request, email):
     if request.method == "POST":
@@ -440,13 +474,8 @@ def add_color(request):
     context = {'color_form': color_form}
     return render(request, 'admin/add-color.html', context)
 
-# admin side user search
-def ad_search(request):
-    users = []
-    if request.method == 'POST':
-        query = request.POST['query']
-        users = CustomUser.objects.filter(Q(first_name__icontains=query)|Q(email__icontains=query)|Q(id__contains=query))
-    return render(request, "admin/ad-search.html", {'users':users})
+
+
 
 # def ad_myorder(request):
 #     order = Orders.objects.all()
@@ -459,3 +488,12 @@ def ad_myorders(request):
 
     return render(request, 'admin/ad-myorder.html', {'order':order})
 
+def ad_order_search(request):
+    users = []
+    if request.method == 'POST':
+        query = request.POST['query']
+        # orders = CustomUser.objects.filter(Q(email_icontains=query)|Q(id_contains=query))
+        orders = Orders.objects.filter(Q(user__email__icontains=query)).order_by("-created_at")
+
+        # order = Order.objects.filter(order=orders)
+    return render(request, "admin/ad-order-search.html", {'orders':orders})

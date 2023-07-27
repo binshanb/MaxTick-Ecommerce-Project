@@ -23,9 +23,9 @@
                 {% csrf_token %}
                 <div class="input-group">
                     <input class="form-control" type="search" name="query" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                    <button class="btn btn-primary" id="btnNavbarSearch search_button" type="submit"><i class="fas fa-search"></i></button>
                 </div>
-            </form>
+   </form>
 
             <!-- Navbar-->
             <ul>
@@ -98,6 +98,76 @@
             </div>
             <div id="layoutSidenav_content">
                 <main>
+                    <style>
+  
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+h1 {
+    color: #007bff; /* Blue color for heading */
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+/* Styling the status labels */
+.badge {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 15px;
+}
+
+.bg-success {
+    background-color: #28a745; /* Green color for "Active" label */
+    color: #fff;
+}
+
+.bg-danger {
+    background-color: #dc3545; /* Red color for "Blocked" label */
+    color: #fff;
+}
+
+/* Styling the action buttons */
+input[type="submit"] {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red color for "Block" button */
+    color: #fff;
+}
+
+.btn-success {
+    background-color: #28a745; /* Green color for "Unblock" button */
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red color on hover */
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green color on hover */
+}
+</style>
                     <div class="container-fluid px-4">
                         <h1 class="mt-4">User Information</h1>
                        

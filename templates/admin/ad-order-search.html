@@ -185,10 +185,10 @@
                               </tr>
                             </thead>
                             <tbody>
-                                {% for order in order %}
+                                {% for order in orders %}
                                 {% comment %} {% for p in order.myorders.all %} {% endcomment %}
                               <tr>
-                                <th>{{order.user}}</th>
+                                <th>{{order.user.email}}</th>
                                 <td>{{ order.order_number }}</td>
                                 <td>{{ order.created_at }}</td>
                                 <td>{{ order.payment.payment_method }}</td>
