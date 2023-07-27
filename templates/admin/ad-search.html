@@ -97,60 +97,61 @@
                 </nav>
             </div>
             <div id="layoutSidenav_content">
-             <main>
-                 <div class="container-fluid px-4">
-                <h1 class="mt-4">User Management</h1>
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">User Management</h1>
 
-                <div class="row">
-               <div class="col-md-8 ms-5 mt-3">
-              <table class="table table-hover mt-4 table-warning ">
-            <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">EMAIL</th>
-                <th scope="col">NAME</th>
-                <th scope="col">STATUS</th>
-                <!-- <th scope="col">PASSWORD</th> -->
-                <th scope="col">ACTION</th>
-              </tr>
-            </thead>
-            <tbody>
-                {% if users %}
-                {% for s in users %}
-              <tr>
-                <th scope="row">{{s.id}}</th>
-                <td>{{s.email}}</td>
-                <td>{{s.first_name}}</td>
-                <td>
-                    {% if s.is_active %}
-                    <label class="badge rounded-pill bg-success text-dark">Active</label>
-                    {% else %}
-                    <label class="badge rounded-pill bg-danger text-dark">Blocked</label>
-                    {% endif %}
-                </td>
+                        <div class="row">
+                        <div class="col-md-8 ms-5 mt-3">
+                        <table class="table table-hover mt-4 table-warning ">
+                            <thead>
+                              <tr>
+                                {% comment %} <th scope="col">ID</th> {% endcomment %}
+                                <th scope="col">EMAIL</th>
+                                <th scope="col">NAME</th>
+                                <th scope="col">STATUS</th>
+                                <!-- <th scope="col">PASSWORD</th> -->
+                                <th scope="col">ACTION</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                {% if users %}
+                                {% for s in users %}
+                              <tr>
+                                {% comment %} <th scope="row">{{s.id}}</th> {% endcomment %}
+                                <td>{{s.email}}</td>
+                                <td>{{s.first_name}}</td>
+                                <td>
+                                    {% if s.is_active %}
+                                    <label class="badge rounded-pill bg-success text-dark">Active</label>
+                                    {% else %}
+                                    <label class="badge rounded-pill bg-danger text-dark">Blocked</label>
+                                    {% endif %}
+                                </td>
 
-                <td>
-                    {% if s.is_active %}
-                    <form action="{% url 'block_user' s.id %}" method="post" class="">{% csrf_token %}
-                        <input type="submit" class="btn btn-danger" value="Block">
-                        </form>
-                    {% else %}
-                    <form action="{% url 'unblock_user' s.id %}" method="post" class="">{% csrf_token %}
-                        <input type="submit" class="btn btn-success" value="Unblock">
-                        </form>
-                    {% endif %}
-                </td>
-              </tr>
-                {% endfor %}
-                {% endif %}
-            </tbody>
-        </table>
-        </div>                     
-       
-        </div>
-    </div>
-    
-</main>
+                                <td>
+                                    {% if s.is_active %}
+                                    <form action="{% url 'block_user' s.email %}" method="post" class="">{% csrf_token %}
+                                        <input type="submit" class="btn btn-danger" value="Block">
+                                        </form>
+                                    {% else %}
+                                    <form action="{% url 'unblock_user' s.email %}" method="post" class="">{% csrf_token %}
+                                        <input type="submit" class="btn btn-success" value="Unblock">
+                                        </form>
+                                    {% endif %}
+                                </td>
+                              </tr>
+                                {% endfor %}
+                                {% endif %}
+                            </tbody>
+                        </table>
+                        </div>                     
+                       
+                        </div>
+                    </div>
+                    
+                </main>
+
 <footer class="py-4 bg-light mt-auto">
     <div class="container-fluid px-4">
         <div class="d-flex align-items-center justify-content-between small">

@@ -125,7 +125,7 @@
 
       <input type="hidden" name="productid" id="productid"  value="{{pro.id}}">
       <input type="hidden" name="selectedcolor" id="selectedcolor"  value=""> 
-      {% comment %} <input type="hidden" name="selectedsize" id="selectedsize"  value=""> {% endcomment %}
+
       <input type="hidden" name="selectedprice" id="selectedprice"  value="">
      
       {{message}}
@@ -195,18 +195,7 @@
     });
   </script>
 
-  {% comment %} <script>
-    function changeImage(imageUrl) {
-      // document.getElementById('zoom_01').src = imageUrl;
-      $('#zoom_01').attr('src', imageUrl);
-    }
-  </script>
-  
-	<!-- image zoom -->
-	<script src="{% static 'js/jquery.ez-plus.js' %}"></script>
-  <script type="text/javascript">
-      $('#zoom_01').ezPlus(); {% endcomment %}
-  {% comment %} </script> {% endcomment %}
+
 
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -238,36 +227,7 @@
       document.getElementById("selectedprice").value = price;
     }
   </script>
-  {% comment %} <script>
-    // Function to increment the quantity
-   function incrementQuantity(max) {
-      console.log("enter")
-      var value = parseInt(document.getElementById('quantity').value, 10);
-      
-      value = isNaN(value) ? 0 : value;
-      if (value < max) {
-        value++;
-      }
-      document.getElementById('quantity').value = value;
-      var selectedquantityInput = document.getElementById("selectedquantity");
-      selectedquantityInput.value = document.getElementById('quantity').value;
-      console.log(selectedquantityInput.value);
-    }
   
-    // Function to decrement the quantity
-    function decrementQuantity() {
-      var value = parseInt(document.getElementById('quantity').value, 10);
-      value = isNaN(value) ? 0 : value;
-      if (value > 1) {
-        value--;
-      }
-      document.getElementById('quantity').value = value;
-      var selectedquantityInput = document.getElementById("selectedquantity");
-      selectedquantityInput.value = value;
-      //selectedquantityInput.value = document.getElementById('quantity').value;
-      console.log(selectedquantityInput.value);
-    }
-  </script>  {% endcomment %}
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
 
    <script>
@@ -359,7 +319,9 @@
     });
   
   
-
+  </script>
+  <script>
+  
     $(document).ready(function() {
       $("#addToCartButton").click(function() {
 
@@ -378,25 +340,7 @@
     });
   </script>
   
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     <script>			
+  <script>			
       function updatePrice(price) {
         var priceElement = document.getElementById("current_price");
         priceElement.innerText = "₹ " + price;
@@ -470,6 +414,16 @@
                     console.log("code run success")
                     console.log(data.status)
                     console.log(data.message)
+                    Swal.fire({
+                      title: 'Added to cart',
+                      icon: 'success',
+                      showCancelButton: false,
+                      showConfirmButton: false,
+                      timer: 1500,
+                      background: '#ffcc00',
+                      iconColor: '#ff0000',
+                      text: 'Continue shopping...',
+                    });
                  }
               })
   
@@ -523,28 +477,65 @@
     });
     </script> 
   
-    <script>
+    {% comment %} <script>
     $(document).ready(function() {
       $("#addToCartButton").click(function() {
         // Show colorful pop-up message
-        Swal.fire({
-          title: 'Added to cart',
-          icon: 'success',
-          showCancelButton: false,
-          showConfirmButton: false,
-          timer: 1500,
-          background: '#ffcc00',
-          iconColor: '#ff0000',
-          text: 'Continue shopping...',
-        });
+        
       });
     });
-  </script> 
+  </script>  {% endcomment %}
   
 
       
   {% endblock %}
 
+
+
+
+
+  {% comment %} <script>
+    // Function to increment the quantity
+   function incrementQuantity(max) {
+      console.log("enter")
+      var value = parseInt(document.getElementById('quantity').value, 10);
+      
+      value = isNaN(value) ? 0 : value;
+      if (value < max) {
+        value++;
+      }
+      document.getElementById('quantity').value = value;
+      var selectedquantityInput = document.getElementById("selectedquantity");
+      selectedquantityInput.value = document.getElementById('quantity').value;
+      console.log(selectedquantityInput.value);
+    }
+  
+    // Function to decrement the quantity
+    function decrementQuantity() {
+      var value = parseInt(document.getElementById('quantity').value, 10);
+      value = isNaN(value) ? 0 : value;
+      if (value > 1) {
+        value--;
+      }
+      document.getElementById('quantity').value = value;
+      var selectedquantityInput = document.getElementById("selectedquantity");
+      selectedquantityInput.value = value;
+      //selectedquantityInput.value = document.getElementById('quantity').value;
+      console.log(selectedquantityInput.value);
+    }
+  </script>  {% endcomment %}
+    {% comment %} <script>
+    function changeImage(imageUrl) {
+      // document.getElementById('zoom_01').src = imageUrl;
+      $('#zoom_01').attr('src', imageUrl);
+    }
+  </script>
+  
+	<!-- image zoom -->
+	<script src="{% static 'js/jquery.ez-plus.js' %}"></script>
+  <script type="text/javascript">
+      $('#zoom_01').ezPlus(); {% endcomment %}
+  {% comment %} </script> {% endcomment %}
 
 
 

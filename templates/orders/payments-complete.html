@@ -18,24 +18,80 @@
                           <table class="table table-bordered" id="Invoice_of_your_order">
                             <tbody>
                               <tr>
-                                 
-                                <th>Order ID:</th>
-                                
-                                <td>{{ id}}</td>
+                              <th>Order Number:</th>
+                              <td>{{ order_number }}</td>
+                              {% comment %} <th>Transaction ID:</th>
+                              <td>{{ payment_id }}</td> {% endcomment %}
+                              </tr>
+                              <!-- Include any other order-related information in the same format -->
+                              <tr>
+                              <th>Total Amount:</th>
+                              <td>₹{{ amount }}</td>
                               </tr>
                               <tr>
-                                <th>Order Number:</th>
-                                
-                                <td>{{order_number}}</td>
+                              <th colspan="2">Shipping Details</th>
                               </tr>
                               <tr>
-                                <th>Total Amount</th>
-                                
-                                <td>{{amount}}</td>
+                              <th>Name:</th>
+                              <td>{{ address.name }}</td>
+                              </tr>
+                              <tr>
+                              <th>Address Line 1:</th>
+                              <td>{{ address.address_line_1 }}</td>
+                              </tr>
+                              <tr>
+                              <th>State/City:</th>
+                              <td>{{ address.state }}, {{ address.city }}</td>
+                              </tr>
+                              <tr>
+                              <th>Country:</th>
+                              <td>{{ address.country }}</td>
+                              </tr>
+                              <tr>
+                              <th colspan="2">Contact Information</th>
+                              </tr>
+                              <tr>
+                              <th>Email:</th>
+                              <td>{{ user.email }}</td>
+                              </tr>
+                              <tr>
+                              <th>Phone:</th>
+                              <td>{{ user.phone_number }}</td>
                               </tr>
                             </tbody>
                           </table>
-              
+                          <!---table start->
+                          <table class="table table-bordered" id="Invoice_of_your_order">
+                            <tbody>
+                              <tr>
+                                 
+                                <th>Order Number:</th>
+                                
+                                <td>{{ order_number}}</td>
+                              </tr>
+                              <tr>
+                                <th>Total Amount:</th>
+                                
+                                <td>{{amount}}</td>
+                              </tr>
+                              <tr>
+                                <th>Name:</th>
+                                
+                                <td>{{address.name}}</td>
+                              </tr>
+                              <tr>
+                                <th>Address:</th>
+                                
+                                <td>{{address.house_name}}</td>
+                              </tr>
+                              <tr>
+                                <th>Place:</th>
+                                
+                                <td>{{address.city}}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+              <!- table complete -->
                {% comment %} <table class="table table-bordered" id="Invoice_of_your_order">
                     <tbody>
                         <tr>

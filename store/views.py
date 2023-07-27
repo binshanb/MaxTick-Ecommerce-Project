@@ -18,35 +18,45 @@ from django.http import HttpResponse, JsonResponse
 
 def store(request, category_slug=None):
 
+    if request.method=="POST":
+        selected_min_price = request.POST['min_price']
+        selected_max_price = request.POST['max_price']
+        selected_category = request.POST['selected_category']
+        print(selected_min_price)
+        print(selected_max_price)
+        print(selected_category)
 
-    if request.method == "POST":
-        print("filter request")
-        print(request.POST)
-        # categories=request.POST.get('categories')
-        # print(categories)
-   
+        complex_lookup = Q(price__gte=selected_min_price) & Q(price__lte=selected_max_price)
+        # filter_data= Product.objects.filter(category__category_name = selected_category,(Q(price__gte=min_price) & Q(price__lte=max_price)))
+        filter_data = Product.objects.filter(complex_lookup,category__category_name=selected_category)
+       
+       
+       
+        
+        print(filter_data)
+        return render(request,'store/store.html',{'products':filter_data})
+
+
+    
 
     categories = Category.objects.all()
     products = Product.objects.filter(is_available=True)
     min_price = products.aggregate(Min('price'))['price__min']
     max_price = products.aggregate(Max('price'))['price__max']
-    selected_category = None
-    selected_min_price = request.GET.get('min_price', min_price)
-    selected_max_price = request.GET.get('max_price', max_price)
-    print(selected_category)
     
-    # categories = None
-    # products = None
-    # min_price=Product.objects.aggregate(Min('price'))
-    # max_price=Product.objects.aggregate(Max('price'))
+    selected_min_price = request.GET.get('selectedMinPrice',min_price)
+    selected_max_price = request.GET.get('selectedMaxPrice',max_price)
+    selected_category = request.GET.get('category_selected')
+    print("firstone",selected_category)
 
-    # price_filter_form = PriceFilterForm(request.GET or None)
-    # brand_filter_form = BrandFilterForm(request.GET or None)min_price=Product.objects.aggregate(Min('price'))
+
 	
     if category_slug != None:
         selected_category = get_object_or_404(Category, slug=category_slug)
+        
         # categories = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=selected_category)
+        products = Product.objects.filter(category=selected_category)
+        print("products",products)
         # products = Product.objects.filter(category=categories, is_available=True)
         paginator = Paginator(products, 3)
         page = request.GET.get('page')
@@ -61,29 +71,33 @@ def store(request, category_slug=None):
 
     if selected_min_price and selected_max_price:
         products = products.filter(price__gte=selected_min_price, price__lte=selected_max_price)
+        print("3",selected_category)
+        if selected_category:
+            c = Category.objects.get(category_name=selected_category)
+      
+            products = products.filter(category=c.id)
+            paginator = Paginator(products, 6)
+            page = request.GET.get('page')
+            paged_products = paginator.get_page(page)
+            product_count = products.count()
+        for p in paged_products:
+             print(p.product_name)
 
+     
     context = {
         'products': paged_products,
         'product_count': product_count,
         'min_price': min_price,
         'max_price' : max_price,
-        'selected_category': selected_category,
+        # 'selected_category': selected_category,
         'selected_min_price': selected_min_price,
-        'selected_max_price': selected_max_price,
+        # 'selected_max_price': selected_max_price,
         'categories': categories,
-        # 'price_filter_form':price_filter_form,
-        # 'brand_filter_form':brand_filter_form
+       
       
     }
     return render(request,'store/store.html',context)
 
-# Product List According to Category
-# def category_product_list(request,cat_id):
-# 	category=Category.objects.get(id=cat_id)
-# 	data=Product.objects.filter(category=category).order_by('-id')
-# 	return render(request,'category_product_list.html',{
-# 			'data':data,
-# 			})
 
 
 
@@ -120,12 +134,12 @@ def search(request):
 
 
 # Filter Data
-def filter_data(request):
-    print("hello")
-    if request.method=="POST":
-        selected_category=request.POST.get('selected_category')   
+# def filter_data(request):
+#     print("hello")
+#     if request.method=="POST":
+#         selected_category=request.POST.get('selected_category')   
 
-    return render(request,'store/store.html')
+#     return render(request,'store/store.html')
     
 	# categories=request.GET.getlist('categories[]')
 

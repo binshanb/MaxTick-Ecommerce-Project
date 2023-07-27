@@ -15,6 +15,7 @@ from django.urls import reverse
 from accounts.forms import BillingAddressForm
 from accounts.views import *
 
+
 # Create your views here.
 
 def add_to_cart(request):  
@@ -49,6 +50,8 @@ def add_to_cart(request):
             except :
                 a=CartItem.objects.create(user=user,cart=cart,product=product,product_variant=variant,quantity=1)
                 print(a)
+            
+            
 
 
             return JsonResponse({'status':400,"message":"added"})
@@ -128,46 +131,11 @@ def update_cart_items(request):
 
         return JsonResponse({'status': 200, 'quantity': cart_item.quantity,'total':cart.get_total_price(),'total_items':cart.get_total_products()})
 
-# def update_cart_items(request):
-#         cart_item_id = request.GET.get('cart_item_id')
-#         action = request.GET.get('action')
 
-#         # cart_item = Cartitem.objects.get(id=cart_item_id)
-#         try:
-#            print("gdfghfd")
-#            cart_item = CartItem.objects.get(id=cart_item_id) 
-#         except cart_item.DoesNotExist:
-#             return JsonResponse({'status': 404, 'error': 'Cart item not found'})
 
-#         if action == 'increase':
-#             print("button pressed")
-#             if isinstance(cart_item.product_variant, ProductVariant):
-#                 if cart_item.quantity < cart_item.product_variant.stock:
-#                     cart_item.quantity += 1
-#                     print("increment")
-                    
-
-#             # elif isinstance(cart_item.product, Product):
-#             #     if cart_item.quantity < cart_item.product.stock:
-#             #         cart_item.quantity += 1
-                    
-            
-#         elif action == 'decrease':
-#             cart_item.quantity -= 1 if cart_item.quantity > 1 else 0
-#         cart_item.save()
-#         if 'total' in request.session:
-#             del request.session['total'] 
-       
-
-#         return JsonResponse({'status': 200,'quantity': cart_item.quantity,'subtotal':cart_item.get_subtotal})
- 
-
-# def admin_cart(request):
-#     cart = Cart.objects.all()
-#     cartitems = Cart.objects.all()
-#     return render(request,'cart/admin-cart.html',{'cart':cart,'cartitems':cartitems})
 
 class Checkout(View):
+    
     def get(self, request):
     
         try:
@@ -309,3 +277,42 @@ def remove_from_wishlist(request, id):
         #     'total': total,
         # }
         # return render(request, 'checkout.html', context)
+
+        # def update_cart_items(request):
+#         cart_item_id = request.GET.get('cart_item_id')
+#         action = request.GET.get('action')
+
+#         # cart_item = Cartitem.objects.get(id=cart_item_id)
+#         try:
+#            print("gdfghfd")
+#            cart_item = CartItem.objects.get(id=cart_item_id) 
+#         except cart_item.DoesNotExist:
+#             return JsonResponse({'status': 404, 'error': 'Cart item not found'})
+
+#         if action == 'increase':
+#             print("button pressed")
+#             if isinstance(cart_item.product_variant, ProductVariant):
+#                 if cart_item.quantity < cart_item.product_variant.stock:
+#                     cart_item.quantity += 1
+#                     print("increment")
+                    
+
+#             # elif isinstance(cart_item.product, Product):
+#             #     if cart_item.quantity < cart_item.product.stock:
+#             #         cart_item.quantity += 1
+                    
+            
+#         elif action == 'decrease':
+#             cart_item.quantity -= 1 if cart_item.quantity > 1 else 0
+#         cart_item.save()
+#         if 'total' in request.session:
+#             del request.session['total'] 
+       
+
+#         return JsonResponse({'status': 200,'quantity': cart_item.quantity,'subtotal':cart_item.get_subtotal})
+ 
+
+# def admin_cart(request):
+#     cart = Cart.objects.all()
+#     cartitems = Cart.objects.all()
+#     return render(request,'cart/admin-cart.html',{'cart':cart,'cartitems':cartitems})

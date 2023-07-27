@@ -2,6 +2,73 @@
 {% load static %}
 
 {% block content %}
+<style>
+ 
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Light gray background color */
+    color: #333; /* Default text color */
+}
+
+.container {
+    padding-top: 50px;
+}
+
+.account-in {
+    margin-top: 20px;
+}
+
+h3 {
+    text-align: center;
+    color: #007bff; /* Blue color for heading */
+}
+
+.account-top {
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    border-radius: 5px;
+}
+
+.form-outline {
+    margin-bottom: 20px;
+}
+
+.form-outline span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn {
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-success {
+    background-color: #28a745; /* Green color for "Send OTP" button */
+    color: #fff;
+    margin-right: 10px;
+}
+
+.btn-success:hover {
+    background-color: #218838; /* Darker green color on hover */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Red color for "Cancel" button */
+    color: #fff;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red color on hover */
+}
+</style>
    <div class="account-in">
    	 <div class="container">
    	   <h3>OTP Login</h3>
@@ -14,6 +81,8 @@
 					<span>Phonenumber*</span>
 					 <input type="text" id ="phone_number" name="phone_number" class="form-control form-control-lg" required=""> 
 				</div>
+
+        <br>
 				
 				<input type ="Submit" class = "btn btn-success " value = "Send OTP">
 				

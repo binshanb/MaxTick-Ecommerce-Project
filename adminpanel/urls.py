@@ -8,6 +8,7 @@ urlpatterns= [
     path('ad_logout',views.ad_logout,name="ad_logout"),
 
     path('sales_report',views.sales_report,name="sales_report"),
+    path('sales_date',views.sales_date,name="sales_date"),
     path('sales_report_by_products/<int:id>/',views.sales_report_by_products,name="sales_report_by_products"),
 
     path('user_info',views.user_info,name="user_info"),
@@ -41,7 +42,8 @@ urlpatterns= [
     path('add_variant', views.add_variant,name="add_variant"),
 
     path('ad_myorders', views.ad_myorders,name="ad_myorders"),
-
+    path('ad_order_search', views.ad_order_search,name="ad_order_search"),
+   
     
 
     

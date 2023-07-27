@@ -88,7 +88,7 @@ class PlaceOrder(View):
                         print(payment_method_selected)
                         if selected_option == 'cod':
                                 print("first one")
-                                payment_method = Payments.objects.create(user=self.current_user,payment_method=payment_method_selected,amount_paid=self.total_price,status="Pending")
+                                payment_method = Payments.objects.create(user=self.current_user,payment_method=payment_method_selected,amount_paid=self.total_price,status="Success")
                                 
                                 data.payment = payment_method
                                 
@@ -130,10 +130,12 @@ class PlaceOrder(View):
                                         if 'total' in request.session:
                                                 del request.session['total']
                                         item.delete()
+
+                                        
                                         flag = 1
                                 
                                 # return JsonResponse({'message': 'Order placed successfully.','flag':flag})
-                                redirect_url = reverse('payments_complete') + f'?amount={self.total_price}&order_number={order_number}&payment_id={payment_method.id}'
+                                redirect_url = reverse('payments_complete') + f'?amount={self.total_price}&order_number={order_number}&payment_id={payment_method.id}&address_id={self.default_address_id}'
                                 return JsonResponse({'message': 'Order placed successfully.','flag':flag,'id':order_number,'amount':self.total_price,'redirect':redirect_url})
                         elif selected_option == 'razorpay':
                                     print("elif")
@@ -230,12 +232,15 @@ def payments_complete(request):
         amount = request.GET.get('amount')
         print(amount)
         order_number = request.GET.get('order_number')
+        address_id=request.GET.get('address_id')
+        address = BillingAddress.objects.get(id=address_id)
         
         context = {
                 'id': id,
                 'payment_id': payment_id,
                 'amount': amount,
-                'order_number':order_number
+                'order_number':order_number,
+                'address':address,
 
         }
 
@@ -307,7 +312,7 @@ def payment_with_wallet(request):
 
                 data.user = current_user
 
-                payment_method = Payments.objects.create(user=current_user,payment_method='Wallet',amount_paid=total_price,status=False)
+                payment_method = Payments.objects.create(user=current_user,payment_method='Wallet',amount_paid=total_price,status="Success")
                 
                 data.payment = payment_method
                 
@@ -347,7 +352,7 @@ def payment_with_wallet(request):
                 cart.save()
                 wallet.balance = float(wallet.balance) - float(total_price)
                 wallet.save()
-                redirect_url = reverse('payments_complete') + f'?amount={total_price}&order_number={order_number}&payment_id={payment_method.id}'
+                redirect_url = reverse('payments_complete') + f'?amount={total_price}&order_number={order_number}&payment_id={payment_method.id}&address_id={default_address_id}'
                 return JsonResponse({'message': 'Order placed successfully.','id':order_number,'amount':total_price,'redirect':redirect_url})
 
 
