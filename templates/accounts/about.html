@@ -2,12 +2,60 @@
 {% load static %}
 
 {% block content %}
-<body>
+
   
-  <main>
+  
+  <style>
+  
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Styles for the main header */
+    h1 {
+      color: #333;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    /* Styles for the sections */
+    .section-conten {
+      background-color: #f0f0f0;
+      padding: 40px 0;
+    }
+
+    /* Styles for the paragraphs */
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* Styles for the CTA button */
+    .cta-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    /* Styles for the CTA button on hover */
+    .cta-button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+<body>
+
+<main>
+  
+
     <section class="section-conten padding-y bg">
 
-      {% include 'includes/alerts.html' %}
+    
       <div class="container">
         <div class="row">
       <h1>Welcome to MaxTick Watch Collections</h1>
