@@ -50,7 +50,7 @@ def ad_home(request):
     for o in order_by_months:
          monthNumber.append(calendar.month_name[o['month']])
          totalOrders.append(list(o.values())[1])
-    print(delivered_orders_number)
+    # print(delivered_orders_number)
 
     delivered_orders_by_years = delivered_orders.annotate(delivered_year=ExtractYear('created_at')).values('delivered_year').annotate(delivered_count=Count('id')).values('delivered_year', 'delivered_count')
     delivered_orders_year = []
@@ -152,6 +152,7 @@ def sales_report_by_products(request,id):
     return render(request, 'admin/sales-report-productwise.html',context)
 
 @never_cache
+
 def ad_login(request):
     if request.user.is_authenticated:
         return redirect('ad_home')
