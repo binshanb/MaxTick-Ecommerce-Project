@@ -100,7 +100,7 @@ def cart(request):
         # Handle the exception appropriately
         # For example, you can log the error or display a user-friendly message
         error_message = f"Error occurred: {str(e)}"
-        # print(error_message)
+        print(error_message)
         # return redirect('home')
     return render(request,'cart/cart.html', {'error_message': error_message})
 

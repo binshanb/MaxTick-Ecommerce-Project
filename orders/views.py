@@ -240,6 +240,7 @@ def payments_complete(request):
                 'payment_id': payment_id,
                 'amount': amount,
                 'order_number':order_number,
+                'address_id':address_id,
                 'address':address,
 
         }
