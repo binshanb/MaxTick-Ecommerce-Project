@@ -5,12 +5,15 @@ import warnings
 from asgiref.sync import sync_to_async
 
 
-class RemovedInNextVersionWarning(DeprecationWarning):
+class RemovedInDjango40Warning(DeprecationWarning):
     pass
 
 
-class RemovedInDjango40Warning(PendingDeprecationWarning):
+class RemovedInDjango41Warning(PendingDeprecationWarning):
     pass
+
+
+RemovedInNextVersionWarning = RemovedInDjango40Warning
 
 
 class warn_about_renamed_method:
@@ -123,10 +126,16 @@ class MiddlewareMixin:
         """
         response = None
         if hasattr(self, 'process_request'):
-            response = await sync_to_async(self.process_request)(request)
+            response = await sync_to_async(
+                self.process_request,
+                thread_sensitive=True,
+            )(request)
         response = response or await self.get_response(request)
         if hasattr(self, 'process_response'):
-            response = await sync_to_async(self.process_response)(request, response)
+            response = await sync_to_async(
+                self.process_response,
+                thread_sensitive=True,
+            )(request, response)
         return response
 
     def _get_response_none_deprecation(self, get_response):
