@@ -156,8 +156,8 @@ class PlaceOrder(View):
                                         
                                     data.payment = payment_method
                                         
-                                    default_address_id = request.GET.get('defaultAddressId')
-                                    data.address =  BillingAddress.objects.get(id=default_address_id)
+                                    self.default_address_id = request.GET.get('defaultAddressId')
+                                    data.address =  BillingAddress.objects.get(id=self.default_address_id)
                                     print(data.address)
                                     data.order_total = self.total_price
                                     print(data.user,data.payment,data.address,data.order_total)
