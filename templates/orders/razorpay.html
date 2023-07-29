@@ -114,6 +114,8 @@ align-items: center;
 <input type="hidden" id="payment_id" value="{{ payment_id }}">
 <input type="hidden" id="order_number_id" value="{{ order_number }}">
 <input type="hidden" id="razor" value="{{ razor }}">
+<input type="hidden" id="address_id" value="{{ address_id }}">
+
 
 <!-- to show payment button when we select payment method -->
 </div>
@@ -132,6 +134,8 @@ align-items: center;
   console.log(orderID)
    var amount = document.getElementById("razorpay_page_total").value;
    console.log(amount)
+   var address_id = document.getElementById("address_id").value;
+   console.log(address_id)
 	var options = {
 	  "key": razorpayApiKey, // Enter the Key ID generated from the Dashboard
 	  "amount": String(amount),
@@ -142,7 +146,7 @@ align-items: center;
 	 
 	  "handler": function (response) {
 		// alert(response.razorpay_payment_id);
-		var redirect = 'payments_complete?id=' + orderID + '&order_number=' + order_number + '&amount=' + actual_amount ;
+		var redirect = 'payments_complete?id=' + orderID + '&order_number=' + order_number + '&amount=' + actual_amount + '&address_id='+ address_id ;
       if (redirect) {
                      // Redirect to the specified URL
                      window.location.href = redirect ;
