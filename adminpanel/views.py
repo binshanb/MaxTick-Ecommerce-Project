@@ -111,8 +111,8 @@ def sales_date(request):
             end_date = form.cleaned_data['end_date']
 
             # Query the sales data within the specified date range
-            
-            sales_data = Orders.objects.filter(created_at__range=[start_date, end_date].order_by("-created_at"))
+
+            sales_data = Orders.objects.filter(created_at__range=[start_date, end_date]).order_by("-created_at")
 
             return render(request, 'admin/sales-report-daily.html', {'sales_data': sales_data, 'form': form,})
 

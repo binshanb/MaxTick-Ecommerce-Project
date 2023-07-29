@@ -244,9 +244,12 @@ def wishlist(request):
 
 
 def add_to_wishlist(request, id):
+
     myproduct = get_object_or_404(Product, pk=id)
     wishlist_item, created = Wishlist.objects.get_or_create(user=request.user, product=myproduct)
     response_data = {'created': created}
+
+
     return JsonResponse(response_data)
 
 
