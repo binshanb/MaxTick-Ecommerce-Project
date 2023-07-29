@@ -195,7 +195,7 @@ class PlaceOrder(View):
                                 #     cart = Cart.objects.get(user=request.user)
                                 #     total_price = cart.get_total_price()
                                     payment_id = payment_method.id
-                                    redirect_url = reverse('place_order_razorpay') + f'?total={self.total_price}&id={order_id}&order_number={order_number}&payment_id={payment_id}'
+                                    redirect_url = reverse('place_order_razorpay') + f'?total={self.total_price}&id={order_id}&order_number={order_number}&payment_id={payment_id}&address_id={self.default_address_id}'
                                     return JsonResponse({'message': 'razorpay entered.','redirect':redirect_url})
 
 def place_order_razorpay(request):
@@ -216,12 +216,14 @@ def place_order_razorpay(request):
         print(total)
         id = request.GET.get('id')
         print(id)
+        address_id=request.GET.get('address_id')
         order_number = request.GET.get('order_number')
         context = {
                 'total': total,
                 'id': id,
                 'order_number':order_number,
-                'razor':razor
+                'razor':razor,
+                'address_id':address_id,
         }
         return render(request, "orders/razorpay.html", context)
 
