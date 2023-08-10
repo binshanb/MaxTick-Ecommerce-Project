@@ -3,6 +3,8 @@
 
 {% block content %}
 
+
+
 <section class="section-pagetop bg">
 	<div class="container">
 		{% if 'search' in request.path %}
@@ -18,7 +20,11 @@
 	<!-- ========================= SECTION CONTENT ========================= -->
 	<section class="section-content padding-y">
 	<div class="container">
-	
+		{% if 'category_info' in request.path %}
+		<option value="{{ category.category_name }}">{{ category.category_name }} </option>
+	{% else %}
+		<h2 class="title-page">Our Store</h2>
+	{% endif %}
 	<div class="row">
 		<aside class="col-md-3">
 	
@@ -30,24 +36,113 @@
 					<h6 class="title">Categories</h6>
 				</a>
 			</header>
+			<style>
+				/* Style for the filter section */
+				.filter-content {
+					background-color: #f5f5f5;
+					padding: 10px;
+					border: 1px solid #ccc;
+					border-radius: 5px;
+					margin-bottom: 10px;
+				}
+			
+				/* Style for the price range inputs */
+				.filter-content input[type="number"] {
+					width: 100px;
+					padding: 5px;
+					margin-right: 10px;
+					border: 1px solid #ccc;
+					border-radius: 3px;
+				}
+			
+				/* Style for the Apply button */
+				.filter-content button {
+					padding: 10px 20px;
+					background-color: #007bff;
+					color: #fff;
+					border: none;
+					border-radius: 5px;
+					cursor: pointer;
+				}
+			
+				/* Style for the category dropdown */
+				.filter-content select {
+					padding: 5px;
+					border: 1px solid #ccc;
+					border-radius: 3px;
+				}
+			</style>
+
+			<!-- store.html -->
+
+{% comment %} <!-- Price Filter Form -->
+<div class="filter-content collapse show" id="collapse_1">
+    <div class="card-body">
+        <form method="POST">
+            {% csrf_token %}
+            <label for="price_range">Price Range:</label>
+			<br>
+            <input type="radio" id="price_range_1" name="price_range" value="0-1000" {% if request.POST.price_range == "0-1000" %}checked{% endif %}>
+            <label for="price_range_1">0 - 1000</label>
+			<br>
+
+            <input type="radio" id="price_range_2" name="price_range" value="1000-2000" {% if request.POST.price_range == "1000-2000" %}checked{% endif %}>
+            <label for="price_range_2">1000 - 2000</label>
+			<br>
+
+            <input type="radio" id="price_range_3" name="price_range" value="2000-5000" {% if request.POST.price_range == "2000-5000" %}checked{% endif %}>
+            <label for="price_range_3">2000 - 5000</label>
+
+      
+
+            <div id="custom_price_range" {% if request.POST.price_range != "custom" %}style="display: none;"{% endif %}>
+                <input type="number" id="min_price_input" name="min_price" value="{{ request.POST.min_price }}" min="{{ min_price }}" max="{{ max_price }}" placeholder="Min Price">
+                <input type="number" id="max_price_input" name="max_price" value="{{ request.POST.max_price }}" min="{{ min_price }}" max="{{ max_price }}" placeholder="Max Price">
+            </div>
+            
+            <select id="category_dropdown" name="selected_category">
+                <option value="">Select</option>
+                {% for category in categories %}
+                    <option value="{{ category.category_name }}" {% if request.GET.selected_category == category.category_name %}selected{% endif %}>{{ category.category_name }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" id="categoryFilterForm">Apply</button>
+        </form>
+    </div> <!-- card-body.// -->
+</div>
+<!-- End of Price Filter Form -->
+
+<!-- Display the filtered products -->
+{% for product in products %}
+    <!-- Your product card display here -->
+{% endfor %} {% endcomment %}
+
 			<!-- Add the price filter form inside the filter-content -->
 <div class="filter-content collapse show" id="collapse_1" style="">
     <div class="card-body">
         <!-- Price Filter Form -->
             <form method="POST">
 
+
 				{% csrf_token %}
-            <input type="number" id="min_price_input" name="min_price" value="{{ selected_min_price }}" min="{{ min_price }}" max="{{ max_price }}" step="0.01" placeholder="Min Price">
-            <input type="number" id="max_price_input" name="max_price" value="{{ selected_max_price }}" min="{{ min_price }}" max="{{ max_price }}" step="0.01" placeholder="Max Price">
+            <input type="number" id="min_price_input" name="min_price" value="{{ selected_min_price }}" min="{{ min_price }}" max="{{ max_price }}"placeholder="Min Price">
+		
+            <input type="number" id="max_price_input" name="max_price" value="{{ selected_max_price }}" min="{{ min_price }}" max="{{ max_price }}" placeholder="Max Price">
+			
       
         <!-- End of Price Filter Form -->
 
+      
+        <br><br>
 		<select id="category_dropdown" name="selected_category">
+		
 			<option value="">Select</option>
 			{% for category in categories %}
 			<option value="{{ category.category_name }}">{{ category.category_name }} </option>
 			{% endfor %}
 		</select>
+		<br><br>
 
 		<button type="submit" id="categoryFilterForm" class ="btn btn-block btn-primary" onclick="submitFilterForm()">Apply</button>
 	</form>
@@ -293,7 +388,7 @@
 
     <script src="{% static 'js/jquery-3.3.1.min.js' %}" type="text/javascript"></script>
 	
-	<script>
+	 <script>
 		var minPriceInput = document.getElementById("min_price_input");
 		var maxPriceInput = document.getElementById("max_price_input");
 	  
@@ -348,8 +443,22 @@
 		}
 		
 
-	</script>
+	</script> 
+{% comment %} 	
+	<script>
+		document.getElementById("price_range_custom").addEventListener("change", function () {
+			var customPriceRange = document.getElementById("custom_price_range");
+			if (this.checked) {
+				customPriceRange.style.display = "block";
+			} else {
+				customPriceRange.style.display = "none";
+			}
+		});
+	</script> {% endcomment %}
 	
+	
+
+
 	
 	{% endblock %}
 	
