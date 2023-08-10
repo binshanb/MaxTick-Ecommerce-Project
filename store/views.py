@@ -90,7 +90,7 @@ def store(request, category_slug=None):
         'min_price': min_price,
         'max_price' : max_price,
         # 'selected_category': selected_category,
-        'selected_min_price': selected_min_price,
+        # 'selected_min_price': selected_min_price,
         # 'selected_max_price': selected_max_price,
         'categories': categories,
        
