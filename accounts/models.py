@@ -67,4 +67,4 @@ class BillingAddress(models.Model):
     
 
     def __str__(self):
-        return self.user.first_name
+        return f"Billing Address for {self.user.first_name}" 
