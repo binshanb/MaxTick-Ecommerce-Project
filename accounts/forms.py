@@ -5,6 +5,8 @@ from phonenumber_field.formfields import PhoneNumberField
 # from django.db.models.base import Model
 # from django.forms.utils import ErrorList
 from . models import CustomUser,BillingAddress
+import re
+from django.core.exceptions import ValidationError
 
 
 class CustomUserForm(UserCreationForm):
@@ -18,6 +20,19 @@ class CustomUserForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['first_name','last_name','email','phone_number','password1','password2']
+    def clean_phone_number(self):
+        phone_number = self.cleaned_data.get('phone_number')
+        
+        # Regular expression to match the desired phone number format
+        phone_number_pattern = re.compile(r'^\+\d{1,3}\d{6,14}$')  # Modify this pattern as per your desired format
+        
+        # Convert PhoneNumber object to string
+        phone_number_str = str(phone_number)
+
+        if not phone_number_pattern.match(phone_number_str):
+            raise ValidationError("Please enter a valid phone number in the format: +XXXXXXXXXXXX")
+        
+        return phone_number
 
     def clean(self):
         cleaned_data = super(CustomUserForm, self).clean()

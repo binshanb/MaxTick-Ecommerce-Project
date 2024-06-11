@@ -65,7 +65,7 @@ def signin(request):
         if user is not None:
             auth.login(request,user)
             request.session['email']=email
-            messages.info(request,'Logged in Successfully')
+            messages.success(request, 'Logged in Successfully')
 
             return render(request,'home.html')
         else:
@@ -78,7 +78,7 @@ def signin(request):
 def signout(request):
     logout(request)
     request.session.flush()
-    messages.success(request,"Logged out successfuly")
+    messages.error(request,"Logged out successfuly")
     return redirect('home')
 
 def verify_code(request):
