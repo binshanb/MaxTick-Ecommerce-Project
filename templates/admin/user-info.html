@@ -200,8 +200,8 @@ input[type="submit"] {
                                     {% endif %}
                                 </td>
 
-                                <td>
-                                    {% if stud.is_active %}
+                                     {% if stud.is_active %}
+                               <td>
                                     <form action="{% url 'block_user' stud.email %}" method="POST" class="">{% csrf_token %}
                                         <input type="submit" class="btn btn-danger" value="Block">
                                         </form>
